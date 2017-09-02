@@ -1,0 +1,60 @@
+D:\code\New Unity Project 1\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
+D:\code\New Unity Project 1\Temp\bin\Debug\Assembly-CSharp.dll
+D:\code\New Unity Project 1\Temp\bin\Debug\Assembly-CSharp.pdb
+D:\code\New Unity Project 1\Temp\bin\Debug\UnityEditor.dll
+D:\code\New Unity Project 1\Temp\bin\Debug\UnityEngine.Analytics.dll
+D:\code\New Unity Project 1\Temp\bin\Debug\UnityEngine.dll
+D:\code\New Unity Project 1\Temp\bin\Debug\UnityEngine.HoloLens.dll
+D:\code\New Unity Project 1\Temp\bin\Debug\UnityEngine.Networking.dll
+D:\code\New Unity Project 1\Temp\bin\Debug\UnityEngine.PlaymodeTestsRunner.dll
+D:\code\New Unity Project 1\Temp\bin\Debug\UnityEngine.UI.dll
+D:\code\New Unity Project 1\Temp\bin\Debug\UnityEngine.VR.dll
+D:\code\New Unity Project 1\Temp\bin\Debug\Mono.Cecil.dll
+D:\code\New Unity Project 1\Temp\bin\Debug\Unity.SerializationLogic.dll
+D:\code\New Unity Project 1\Temp\bin\Debug\Unity.DataContract.dll
+D:\code\New Unity Project 1\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+D:\code\New Unity Project 1\Temp\bin\Debug\Unity.UNetWeaver.dll
+D:\code\New Unity Project 1\Temp\bin\Debug\Unity.CecilTools.dll
+D:\code\New Unity Project 1\Temp\bin\Debug\Mono.Cecil.Pdb.dll
+D:\code\New Unity Project 1\Temp\bin\Debug\Mono.Cecil.Mdb.dll
+D:\code\New Unity Project 1\Temp\bin\Debug\UnityEngine.xml
+D:\code\New Unity Project 1\Temp\bin\Debug\UnityEditor.xml
+D:\code\New Unity Project 1\Temp\bin\Debug\UnityEngine.UI.xml
+D:\code\New Unity Project 1\Temp\bin\Debug\UnityEngine.Networking.xml
+D:\code\New Unity Project 1\Temp\bin\Debug\UnityEngine.PlaymodeTestsRunner.xml
+D:\code\New Unity Project 1\Temp\bin\Debug\UnityEngine.Analytics.xml
+D:\code\New Unity Project 1\Temp\bin\Debug\UnityEngine.HoloLens.xml
+D:\code\New Unity Project 1\Temp\bin\Debug\UnityEngine.VR.xml
+D:\code\New Unity Project 1\obj\Debug\Assembly-CSharp.dll
+D:\code\New Unity Project 1\obj\Debug\Assembly-CSharp.pdb
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\obj\Debug\Assembly-CSharp.dll
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\Assembly-CSharp.dll
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\Assembly-CSharp.pdb
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\nunit.framework.dll
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\UnityEditor.dll
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\UnityEngine.Analytics.dll
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\UnityEngine.dll
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\UnityEngine.HoloLens.dll
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\UnityEngine.Networking.dll
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\UnityEngine.TestRunner.dll
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\UnityEngine.UI.dll
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\UnityEngine.VR.dll
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\Mono.Cecil.dll
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\Unity.SerializationLogic.dll
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\Unity.DataContract.dll
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\Unity.UNetWeaver.dll
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\Unity.CecilTools.dll
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\Mono.Cecil.Pdb.dll
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\Mono.Cecil.Mdb.dll
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\UnityEngine.xml
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\UnityEditor.xml
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\UnityEngine.UI.xml
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\UnityEngine.Networking.xml
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\UnityEngine.TestRunner.xml
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\nunit.framework.xml
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\UnityEngine.Analytics.xml
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\UnityEngine.HoloLens.xml
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\Temp\bin\Debug\UnityEngine.VR.xml
+C:\Users\jacob.hasenau\Desktop\New Unity Project 1\New Unity Project 1\obj\Debug\Assembly-CSharp.pdb
