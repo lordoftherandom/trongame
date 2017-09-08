@@ -8,13 +8,26 @@ public class Spawner : MonoBehaviour {
 	public float xSpawn;
 	public int totalLanes;
 	public List <GameObject> allCurrentObs;
+	public float scale;
+
 	private int obsCount;
 	private float maxSpawnTime;
+	private int laneMax;
+	private int laneMin;
+
 
 	// Use this for initialization
 	void Start () {
+		if (totalLanes / 2 % 2 != 0) //adding .5 makes sure the number will converte to an int in the case that total lanes are odd
+			laneMax = (int)((totalLanes / 2)+0.5);
+		else
+			laneMax = (int)((totalLanes / 2)+1); //adding 1 makes sure that, when laneMax is put into the random number generator, it will spawn at the max lane
+		laneMin = totalLanes / 2 * -1;
+
 		obsCount = obstacles.Length;
 		maxSpawnTime = spawnTime;
+		print ("laneMax: " + laneMax);
+		print ("laneMin: " + laneMin);
 	}
 	
 	// Update is called once per frame
@@ -29,11 +42,8 @@ public class Spawner : MonoBehaviour {
 	{
 		int laneSelect;
 		int mutipleLanes = 1;
-		if (totalLanes % 2 == 0) // needed. for example, totalLanes = 6. totalLanes/2 = 3. 3 would be a lane that should be choosen, but random.range would only pick up to 3. aadding one solves this.
-			laneSelect = Random.Range (-totalLanes/2, totalLanes/2+1);
-		else
-			laneSelect = Random.Range (-totalLanes/2, totalLanes/2);
-		if (laneSelect == -1)
+		laneSelect = Random.Range (laneMin, laneMax);
+		if (laneSelect == -1) //is there a way to make this dynamic?
 			mutipleLanes = Random.Range (-1, 2)*6;
 		else if (laneSelect == 0)
 			mutipleLanes = Random.Range (-2, 3)*6;

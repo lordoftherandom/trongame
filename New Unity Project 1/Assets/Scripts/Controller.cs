@@ -27,7 +27,6 @@ public class Controller : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
 		x = Input.GetAxisRaw ("Horizontal");
 		y = Input.GetAxisRaw ("Vertical");
 		moveHero (x,y);
@@ -52,10 +51,10 @@ public class Controller : MonoBehaviour {
 		}
 		if (delayY == 0) {
 			if (yDir > 0) {
-				hero.MovePosition ((new Vector2 (0, 2)) + (new Vector2 (transform.position.x, transform.position.y)));
+				hero.MovePosition ((new Vector2 (0, 2.0f)) + (new Vector2 (transform.position.x, transform.position.y)));
 				tempDir = 1;
 			} else if (yDir < 0) {
-				hero.MovePosition ((new Vector2 (0, -2)) + (new Vector2 (transform.position.x, transform.position.y)));
+				hero.MovePosition ((new Vector2 (0, -2.0f)) + (new Vector2 (transform.position.x, transform.position.y)));
 				tempDir = -1;
 			}
 			StartCoroutine (delayCountY (tempDir));
