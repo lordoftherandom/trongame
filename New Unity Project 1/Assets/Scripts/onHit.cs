@@ -12,17 +12,17 @@ public class onHit : MonoBehaviour {
 
 	void Start () {
 		collHappened = false;
-		curTransTime = 0;
+		curTransTime = 0.0f;
 	}
 	
 
 	void Update () {
 		if (collHappened) {
 			Renderer temp = gameObject.GetComponent<Renderer> ();
-			if (temp.enabled && curTransTime <= 0) {
+			if (temp.enabled && curTransTime <= 0.0f) {
 				temp.enabled = false;
 				curTransTime = transTimeMax/collTime;
-			} else if (curTransTime <= 0) {
+			} else if (curTransTime <= 0.0f) {
 				temp.enabled = true;
 				curTransTime = transTimeMax/collTime;
 			}

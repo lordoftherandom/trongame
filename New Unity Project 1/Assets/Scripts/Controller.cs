@@ -11,8 +11,10 @@ public class Controller : MonoBehaviour {
 	private Vector2 movement;
 	public float delayMax;
 	//private float delay;
-	private float delayX;
-	private float delayY;
+	private bool delayX;
+	private bool delayY;
+	private float horMovement;
+	private float verMovement;
 
 	// Use this for initialization
 	void Start () {
@@ -21,8 +23,10 @@ public class Controller : MonoBehaviour {
 			gameObject.AddComponent<Rigidbody2D> ();
 			hero = gameObject.GetComponent<Rigidbody2D>();
 		} 
-		delayX = 0;
-		delayY = 0;
+		delayX = false;
+		delayY = false;
+		horMovement = 1.0f;
+		verMovement = 2.0f;
 	}
 	
 	// Update is called once per frame
@@ -39,22 +43,22 @@ public class Controller : MonoBehaviour {
 	void moveHero(float xDir, float yDir)
 	{
 		int tempDir = 0;
-		if (delayX == 0) {
-			if (xDir > 0) {
-				hero.MovePosition (new Vector2 (1, 0) + (new Vector2 (transform.position.x, transform.position.y)));
+		if (!delayX) {
+			if (xDir > 0.0f) {
+				hero.MovePosition (new Vector2 (horMovement, 0) + (new Vector2 (transform.position.x, transform.position.y)));
 				tempDir = 1;
-			} else if (xDir < 0) {
-				hero.MovePosition (new Vector2 (-1, 0) + (new Vector2 (transform.position.x, transform.position.y)));
+			} else if (xDir < 0.0f) {
+				hero.MovePosition (new Vector2 (-horMovement, 0) + (new Vector2 (transform.position.x, transform.position.y)));
 				tempDir = -1;
 			}
 			StartCoroutine (delayCountX (tempDir));
 		}
-		if (delayY == 0) {
-			if (yDir > 0) {
-				hero.MovePosition ((new Vector2 (0, 2.0f)) + (new Vector2 (transform.position.x, transform.position.y)));
+		if (!delayY) {
+			if (yDir > 0.0f) {
+				hero.MovePosition ((new Vector2 (0, verMovement)) + (new Vector2 (transform.position.x, transform.position.y)));
 				tempDir = 1;
-			} else if (yDir < 0) {
-				hero.MovePosition ((new Vector2 (0, -2.0f)) + (new Vector2 (transform.position.x, transform.position.y)));
+			} else if (yDir < 0.0f) {
+				hero.MovePosition ((new Vector2 (0, -verMovement)) + (new Vector2 (transform.position.x, transform.position.y)));
 				tempDir = -1;
 			}
 			StartCoroutine (delayCountY (tempDir));
@@ -67,15 +71,15 @@ public class Controller : MonoBehaviour {
 
 	IEnumerator delayCountY(int dir)
 	{
-		delayY = 1;
+		delayY = true;
 		yield return new WaitForSeconds (delayMax);
-		delayY = 0;
+		delayY = false;
 	}
 
 	IEnumerator delayCountX(int dir)
 	{
-		delayX = 1;
+		delayX = true;
 		yield return new WaitForSeconds (delayMax);
-		delayX = 0;
+		delayX = false;
 	}
 }
