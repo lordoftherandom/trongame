@@ -4,34 +4,28 @@ using UnityEngine;
 
 public class ScaleToScreen : MonoBehaviour {
 	public float scaleMultiple;
-	public int orgWidth; //In pixels
-	public int orgHeight; //In pixels
+	public float orgWidth; //In pixels
+	public float orgHeight; //In pixels
 
 	private float orgAspect;
 	private GameObject parentObject;
 
 	// Use this for initialization
 	void Start () {
-		orgHeight = 800;
-		orgWidth = 480;
+		orgWidth = 800.0f;
+		orgHeight = 480.0f;
 		print (Screen.height);
 		print (Screen.width);
 
 		float heightScale = (Screen.height / orgHeight);
 		float widthScale = (Screen.width / orgWidth);
 
-		if (heightScale > widthScale) {
-			scaleMultiple = widthScale;
-		
-		} else {
-			scaleMultiple = heightScale;
-		}
-
+		scaleMultiple = widthScale;
 		parentObject = GameObject.FindGameObjectWithTag ("Parent");
 		print (parentObject.tag);
+		print (scaleMultiple);
 		parentObject.transform.localScale = new Vector3 (scaleMultiple, scaleMultiple, parentObject.transform.localScale.z);
-		Camera.main.orthographicSize = (Camera.main.orthographicSize * scaleMultiple);
-		print (Camera.main.orthographicSize);
+		Camera.main.orthographicSize = Camera.main.orthographicSize * scaleMultiple;
 
 	}
 	

@@ -89,3 +89,32 @@ C:\Users\jacob.hasenau\Desktop\New Unity Project 1\tronGame\New Unity Project 1\
 C:\Users\jacob.hasenau\Desktop\New Unity Project 1\tronGame\New Unity Project 1\Temp\bin\Debug\UnityEngine.HoloLens.xml
 C:\Users\jacob.hasenau\Desktop\New Unity Project 1\tronGame\New Unity Project 1\Temp\bin\Debug\UnityEngine.VR.xml
 C:\Users\jacob.hasenau\Desktop\New Unity Project 1\tronGame\New Unity Project 1\obj\Debug\Assembly-CSharp.pdb
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\Assembly-CSharp.dll
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\Assembly-CSharp.pdb
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEditor.dll
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEngine.Analytics.dll
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEngine.dll
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEngine.HoloLens.dll
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEngine.Networking.dll
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEngine.PlaymodeTestsRunner.dll
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEngine.UI.dll
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEngine.VR.dll
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\Mono.Cecil.dll
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\Unity.SerializationLogic.dll
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\Unity.DataContract.dll
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\Unity.UNetWeaver.dll
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\Unity.CecilTools.dll
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\Mono.Cecil.Pdb.dll
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\Mono.Cecil.Mdb.dll
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEngine.xml
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEditor.xml
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEngine.UI.xml
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEngine.Networking.xml
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEngine.PlaymodeTestsRunner.xml
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEngine.Analytics.xml
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEngine.HoloLens.xml
+D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEngine.VR.xml
+D:\code\trongame\New Unity Project 1\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
+D:\code\trongame\New Unity Project 1\obj\Debug\Assembly-CSharp.dll
+D:\code\trongame\New Unity Project 1\obj\Debug\Assembly-CSharp.pdb
