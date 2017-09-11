@@ -15,8 +15,9 @@ public class obsMovement : MonoBehaviour {
 	public float yRotate; //speed object will rotate along y-axis, turn to private on final build
 	public float zRotate; //speed object will rotate along z-axis, turn to private on final build
 	public float rotateDamp; //the dampener on rotation, turn to private on final build
-	public int waveIncrease;
+	public float waveIncrease;
 
+	private float scaleMultiple;
 	private float wavelength; // if cube spawns in the middle of the lane, this is how much room the cube has to bounce/2
 	private float smoothTime; //how fast, roughly, it takes from frame to frame. Smooths bounces
 	private float offsetY; //needed to give orignal point of object
@@ -29,9 +30,11 @@ public class obsMovement : MonoBehaviour {
 		offsetY = transform.position.y;
 		refVelocity = Vector2.zero;
 		wavelength = 0.25f;
+		scaleMultiple = Camera.main.gameObject.GetComponent<ScaleToScreen> ().scaleMultiple;
+
 		if (ranSpeed) { //will randomize speed of cubes, and possibly randomize rotation
 			int temp = Random.Range (minSpeed, maxSpeed);
-			speed = speed * temp;
+			speed = speed * temp*scaleMultiple;
 			if (ranRotate) { //randomizes rotation of cubes, based on speed and randomly selects if it will rotate clockwise or counterclockwise
 				if (Random.Range (0, 2) == 0) //using random range for each of these seems ineffiective, but increases the variance in how objects spin. Allows for 8 total combinations
 					xRotate = xRotate * temp / rotateDamp;
@@ -48,11 +51,13 @@ public class obsMovement : MonoBehaviour {
 			}
 			if (ranBounce) {
 				if (Random.Range (0, 2) == 0)
-					hertz = hertz * temp;
+					hertz = hertz * temp/scaleMultiple;
 				else
-					hertz = hertz * temp * -1;
+					hertz = hertz * temp * -1/scaleMultiple;
 			}
 		}
+
+
 
 	}
 	

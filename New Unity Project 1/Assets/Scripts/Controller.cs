@@ -15,6 +15,7 @@ public class Controller : MonoBehaviour {
 	private bool delayY;
 	private float horMovement;
 	private float verMovement;
+	private float scaleMultiple;
 
 	// Use this for initialization
 	void Start () {
@@ -23,10 +24,12 @@ public class Controller : MonoBehaviour {
 			gameObject.AddComponent<Rigidbody2D> ();
 			hero = gameObject.GetComponent<Rigidbody2D>();
 		} 
+		scaleMultiple = Camera.main.gameObject.GetComponent<ScaleToScreen> ().scaleMultiple;
 		delayX = false;
 		delayY = false;
-		horMovement = 1.0f;
-		verMovement = 2.0f;
+		horMovement = 1.0f*scaleMultiple;
+		verMovement = 2.0f*scaleMultiple;
+
 	}
 	
 	// Update is called once per frame

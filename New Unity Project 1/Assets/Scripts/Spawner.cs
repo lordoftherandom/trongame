@@ -12,22 +12,25 @@ public class Spawner : MonoBehaviour {
 
 	private int obsCount;
 	private float maxSpawnTime;
-	private int laneMax;
-	private int laneMin;
+	private float laneMax;
+	private float laneMin;
+	private float scaleMultiple;
 
 
 	// Use this for initialization
 	void Start () {
+		scaleMultiple = Camera.main.gameObject.GetComponent<ScaleToScreen> ().scaleMultiple;
 		if (totalLanes / 2 % 2 != 0) //adding .5 makes sure the number will converte to an int in the case that total lanes are odd
-			laneMax = (int)((totalLanes / 2)+0.5);
+			laneMax = ((totalLanes / 2)+0.5f)*scaleMultiple;
 		else
-			laneMax = (int)((totalLanes / 2)+1); //adding 1 makes sure that, when laneMax is put into the random number generator, it will spawn at the max lane
-		laneMin = totalLanes / 2 * -1;
+			laneMax = ((totalLanes / 2)+1)*scaleMultiple; //adding 1 makes sure that, when laneMax is put into the random number generator, it will spawn at the max lane
+		laneMin = (totalLanes / 2 * -1)*scaleMultiple;
 
 		obsCount = obstacles.Length;
 		maxSpawnTime = spawnTime;
 		print ("laneMax: " + laneMax);
 		print ("laneMin: " + laneMin);
+
 	}
 	
 	// Update is called once per frame
@@ -42,7 +45,7 @@ public class Spawner : MonoBehaviour {
 	{
 		int laneSelect;
 		int mutipleLanes = 1;
-		laneSelect = Random.Range (laneMin, laneMax);
+		laneSelect = Random.Range ((int)laneMin, (int)laneMax);
 		if (laneSelect == -1) //is there a way to make this dynamic?
 			mutipleLanes = Random.Range (-1, 2)*6;
 		else if (laneSelect == 0)
@@ -54,7 +57,8 @@ public class Spawner : MonoBehaviour {
 		GameObject ranObject = obstacles[(Random.Range(0,obsCount))];
 		GameObject thisInstince = Instantiate (ranObject, new Vector3 (xSpawn, laneSelect*2, 0 ), Quaternion.identity);
 		allCurrentObs.Add (thisInstince);
-		thisInstince.GetComponent<obsMovement> ().waveIncrease = mutipleLanes;
+		thisInstince.GetComponent<obsMovement> ().waveIncrease = mutipleLanes*scaleMultiple;
+		thisInstince.transform.localScale = thisInstince.transform.localScale * scaleMultiple;
 		spawnTime = maxSpawnTime;
 	}
 
