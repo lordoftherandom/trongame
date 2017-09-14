@@ -7,21 +7,17 @@ public class ScaleToScreen : MonoBehaviour {
 	public float orgWidth; //In pixels
 	public float orgHeight; //In pixels
 
+	private float orgAspect, orgCamSize, currAspect, currWidth, currHeight;
 	private GameObject parentObject;
+
 	void Awake(){
-		orgWidth = 800.0f;
-		orgHeight = 480.0f;
-		print (Screen.height);
-		print (Screen.width);
-
-		float heightScale = (Screen.height / orgHeight);
-		float widthScale = (Screen.width / orgWidth);
-
-		scaleMultiple = widthScale;
+		orgAspect = orgWidth / orgHeight;
+		orgCamSize = Camera.main.orthographicSize;
 		parentObject = GameObject.FindGameObjectWithTag ("Parent");
-		print (parentObject.tag);
-		parentObject.transform.localScale = new Vector3 (scaleMultiple, scaleMultiple, parentObject.transform.localScale.z);
-		Camera.main.orthographicSize = Camera.main.orthographicSize * scaleMultiple;
+		currWidth = Screen.width;
+		currHeight = Screen.height;
+		currAspect = currWidth / currHeight; //If currAspect > orgAspect, too much width. if currAspect < orgAspect, too much height. else, fine
+		ResolutionUpdate();
 	}
 	// Use this for initialization
 	void Start () {
@@ -31,6 +27,38 @@ public class ScaleToScreen : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (Screen.width != currWidth || Screen.height != currHeight)
+			ResolutionUpdate ();
+	}
+
+	public float GetScaleMultiple()
+	{
+		return scaleMultiple;
+	}
+
+
+	void ResolutionUpdate()
+	{
+		currWidth = Screen.width;
+		currHeight = Screen.height;
+		currAspect = currWidth / currHeight;
+		print (orgCamSize);
+		Camera.main.orthographicSize = orgCamSize;
+		if (currAspect > orgAspect) {
+			scaleMultiple = currAspect;
+			Camera.main.orthographicSize = Camera.main.orthographicSize * orgAspect;
+		} else if (currAspect < orgAspect) {//too much height
+			scaleMultiple = currAspect;
+			Camera.main.orthographicSize = Camera.main.orthographicSize * orgAspect;
+		} else {
+			float heightScale = (Screen.height / orgHeight);
+			float widthScale = (Screen.width / orgWidth);
+			if (widthScale < heightScale)
+				scaleMultiple = widthScale;
+			else
+				scaleMultiple = heightScale;
+			Camera.main.orthographicSize = Camera.main.orthographicSize * scaleMultiple;
+		}
+		parentObject.transform.localScale = new Vector3 (scaleMultiple, scaleMultiple, scaleMultiple);
 	}
 }

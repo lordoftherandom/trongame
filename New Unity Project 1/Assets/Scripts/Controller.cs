@@ -15,7 +15,7 @@ public class Controller : MonoBehaviour {
 	private bool delayY;
 	private float horMovement;
 	private float verMovement;
-	private float scaleMultiple;
+	private ScaleToScreen scaleMultiple;
 
 	// Use this for initialization
 	void Start () {
@@ -24,11 +24,11 @@ public class Controller : MonoBehaviour {
 			gameObject.AddComponent<Rigidbody2D> ();
 			hero = gameObject.GetComponent<Rigidbody2D>();
 		} 
-		scaleMultiple = Camera.main.gameObject.GetComponent<ScaleToScreen> ().scaleMultiple;
+		scaleMultiple = Camera.main.GetComponent<ScaleToScreen>();
 		delayX = false;
 		delayY = false;
-		horMovement = 1.0f*scaleMultiple;
-		verMovement = 2.0f*scaleMultiple;
+		horMovement = 1.0f;
+		verMovement = 2.0f;
 
 	}
 	
@@ -48,20 +48,20 @@ public class Controller : MonoBehaviour {
 		int tempDir = 0;
 		if (!delayX) {
 			if (xDir > 0.0f) {
-				hero.MovePosition (new Vector2 (horMovement, 0) + (new Vector2 (transform.position.x, transform.position.y)));
+				hero.MovePosition (new Vector2 (horMovement*scaleMultiple.GetScaleMultiple(), 0) + (new Vector2 (transform.position.x, transform.position.y)));
 				tempDir = 1;
 			} else if (xDir < 0.0f) {
-				hero.MovePosition (new Vector2 (-horMovement, 0) + (new Vector2 (transform.position.x, transform.position.y)));
+				hero.MovePosition (new Vector2 (-horMovement*scaleMultiple.GetScaleMultiple(), 0) + (new Vector2 (transform.position.x, transform.position.y)));
 				tempDir = -1;
 			}
 			StartCoroutine (delayCountX (tempDir));
 		}
 		if (!delayY) {
 			if (yDir > 0.0f) {
-				hero.MovePosition ((new Vector2 (0, verMovement)) + (new Vector2 (transform.position.x, transform.position.y)));
+				hero.MovePosition ((new Vector2 (0, verMovement*scaleMultiple.GetScaleMultiple())) + (new Vector2 (transform.position.x, transform.position.y)));
 				tempDir = 1;
 			} else if (yDir < 0.0f) {
-				hero.MovePosition ((new Vector2 (0, -verMovement)) + (new Vector2 (transform.position.x, transform.position.y)));
+				hero.MovePosition ((new Vector2 (0, -verMovement*scaleMultiple.GetScaleMultiple())) + (new Vector2 (transform.position.x, transform.position.y)));
 				tempDir = -1;
 			}
 			StartCoroutine (delayCountY (tempDir));
