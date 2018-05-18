@@ -54,11 +54,15 @@ public class Spawner : MonoBehaviour {
 			mutipleLanes = Random.Range (-1, 2)*6;
 		if (mutipleLanes == 0)
 			mutipleLanes = 1;
-		GameObject ranObject = obstacles[(Random.Range(0,obsCount))];
-		GameObject thisInstince = Instantiate (ranObject, new Vector3 (xSpawn, laneSelect*2*scaleMultiple.GetScaleMultiple(), 0 ), Quaternion.identity);
 
-		allCurrentObs.Add (thisInstince);
-		thisInstince.GetComponent<obsMovement> ().waveIncrease = mutipleLanes*scaleMultiple.GetScaleMultiple();
+		GameObject obs = Resources.Load ("Cube", typeof(GameObject)) as GameObject;
+		GameObject thisInstince = Instantiate (obs, 
+			new Vector3 (xSpawn, laneSelect * 2 * scaleMultiple.GetScaleMultiple (), 0),
+			Quaternion.identity) as GameObject;
+
+		thisInstince.AddComponent<Obstacles> ();
+		thisInstince.GetComponent<Obstacles> ().setValues (laneMax, 1, this.gameObject);
+
 		thisInstince.transform.localScale = new Vector3(0.9f* scaleMultiple.GetScaleMultiple(), 0.9f * scaleMultiple.GetScaleMultiple(), 0.9f * scaleMultiple.GetScaleMultiple());
 		thisInstince.transform.parent = parent.transform;
 		spawnTime = maxSpawnTime;
