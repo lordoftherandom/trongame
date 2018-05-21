@@ -3,35 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour {
-	public GameObject[] obstacles;
 	public float spawnTime;
 	public float xSpawn;
 	public int totalLanes;
 	public List <GameObject> allCurrentObs;
-	public float scale;
-
-	private int obsCount;
 	private float maxSpawnTime;
-	private float laneMax;
-	private float laneMin;
-	private ScaleToScreen scaleMultiple;
 	private GameObject parent;
 
 
 	// Use this for initialization
 	void Start () {
-		scaleMultiple = Camera.main.GetComponent<ScaleToScreen> ();
-		if (totalLanes / 2 % 2 != 0) //adding .5 makes sure the number will converte to an int in the case that total lanes are odd
-			laneMax = ((totalLanes / 2)+0.5f);
-		else
-			laneMax = ((totalLanes / 2)+1); //adding 1 makes sure that, when laneMax is put into the random number generator, it will spawn at the max lane
-		laneMin = (totalLanes / 2 * -1);
 
-		obsCount = obstacles.Length;
 		maxSpawnTime = spawnTime;
 		parent = GameObject.FindGameObjectWithTag ("Parent");
 
-	}
+	}//end Start
 	
 	// Update is called once per frame
 	void Update () {
@@ -39,40 +25,28 @@ public class Spawner : MonoBehaviour {
 			randomSpawn ();
 		spawnTime -= Time.deltaTime;
 		
-	}
+	}//end Update
 
 	void randomSpawn()
 	{
-		float laneSelect;
-		int mutipleLanes = 1;
-		laneSelect = Random.Range (laneMin, laneMax);
-		if (laneSelect == -1) //is there a way to make this dynamic?
-			mutipleLanes = Random.Range (-1, 2)*6;
-		else if (laneSelect == 0)
-			mutipleLanes = Random.Range (-2, 3)*6;
-		else if (laneSelect == 1)
-			mutipleLanes = Random.Range (-1, 2)*6;
-		if (mutipleLanes == 0)
-			mutipleLanes = 1;
+
 
 		GameObject obs = Resources.Load ("Cube", typeof(GameObject)) as GameObject;
-		GameObject thisInstince = Instantiate (obs, 
-			new Vector3 (xSpawn, laneSelect * 2 * scaleMultiple.GetScaleMultiple (), 0),
+		GameObject thisInstince = Instantiate (obs, new Vector3 (xSpawn, totalLanes, 0),
 			Quaternion.identity) as GameObject;
 
-		thisInstince.AddComponent<Obstacles> ();
-		thisInstince.GetComponent<Obstacles> ().setValues (laneMax, 1, this.gameObject);
+		thisInstince.AddComponent<Cube> ();
+		thisInstince.GetComponent<Cube> ().setValues (totalLanes, 1, 5, this.gameObject, true);
 
-		thisInstince.transform.localScale = new Vector3(0.9f* scaleMultiple.GetScaleMultiple(), 0.9f * scaleMultiple.GetScaleMultiple(), 0.9f * scaleMultiple.GetScaleMultiple());
-		thisInstince.transform.parent = parent.transform;
+
 		spawnTime = maxSpawnTime;
-	}
+	}//end randomSpawn
 
 	public void Remove(GameObject obs)
 	{
 		allCurrentObs.Remove(obs);
 		spawnTime = 0.0f;
-	}
+	}//end Remove
 
 	public void HideObs()
 	{
@@ -81,7 +55,7 @@ public class Spawner : MonoBehaviour {
 			Renderer reference = allCurrentObs [i].GetComponent<Renderer>();
 			reference.enabled = false;
 		}
-	}
+	}//end HideObs
 
 	public void UnHideObs()
 	{
@@ -90,6 +64,6 @@ public class Spawner : MonoBehaviour {
 			Renderer reference = allCurrentObs [i].GetComponent<Renderer>();
 			reference.enabled = true;
 		}
-	}
+	}//end UnHideObs
 
 }

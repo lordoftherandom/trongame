@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ScaleToScreen : MonoBehaviour {
 	public float scaleMultiple;
+    public float xUnits;
+    public float yUnits;
 	public float orgWidth; //In pixels
 	public float orgHeight; //In pixels
 
@@ -18,39 +20,39 @@ public class ScaleToScreen : MonoBehaviour {
 		currHeight = Screen.height;
 		currAspect = currWidth / currHeight; //If currAspect > orgAspect, too much width. if currAspect < orgAspect, too much height. else, fine
 		ResolutionUpdate();
-	}
-	// Use this for initialization
+	}//end Awake
+
 	void Start () {
 
 
-	}
+	}//end Start
 	
 	// Update is called once per frame
 	void Update () {
 		if (Screen.width != currWidth || Screen.height != currHeight)
 			ResolutionUpdate ();
-	}
+	}//end Update
 
 	public float GetScaleMultiple()
 	{
 		return scaleMultiple;
-	}
+	}//end GetScaleMultiple
 
 
 	void ResolutionUpdate()
 	{
 		currWidth = Screen.width;
 		currHeight = Screen.height;
-		currAspect = currWidth / currHeight;
-		print (orgCamSize);
+		currAspect = currWidth / currHeight; //find what our new aspect ratio is
+
 		Camera.main.orthographicSize = orgCamSize;
-		if (currAspect > orgAspect) {
-			scaleMultiple = currAspect;
+		if (currAspect > orgAspect) {//width/height ratio is the same, simple multiply
+			scaleMultiple = currAspect; 
 			Camera.main.orthographicSize = Camera.main.orthographicSize * orgAspect;
 		} else if (currAspect < orgAspect) {//too much height
 			scaleMultiple = currAspect;
 			Camera.main.orthographicSize = Camera.main.orthographicSize * orgAspect;
-		} else {
+		} else {//too much width
 			float heightScale = (Screen.height / orgHeight);
 			float widthScale = (Screen.width / orgWidth);
 			if (widthScale < heightScale)
@@ -60,5 +62,5 @@ public class ScaleToScreen : MonoBehaviour {
 			Camera.main.orthographicSize = Camera.main.orthographicSize * scaleMultiple;
 		}
 		parentObject.transform.localScale = new Vector3 (scaleMultiple, scaleMultiple, scaleMultiple);
-	}
+	}//end of ResolutionUpdate
 }
