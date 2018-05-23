@@ -30,7 +30,6 @@ public class Cube : Obstacles {
         x = xMove(Time.deltaTime);
         y = yMove(Time.time);
         Vector2 movVec = new Vector2(x, y);
-        Debug.Log("Move " + objID + " at X " + x + " Y " + y, gameObject);
         Vector2 refVec = Vector2.zero;
         transform.position = Vector2.SmoothDamp(transform.position, movVec, ref refVec, 0.0f, 1000, Time.deltaTime);
     }
