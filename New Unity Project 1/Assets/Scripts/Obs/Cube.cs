@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Cube : Obstacles {
     private float yStart;
-
+    private float hertz, amp, waveScale;
 	// Use this for initialization
 	protected override void Start () {
         base.Start();
         yStart = transform.position.y;
+        waveScale = transform.localScale.y;
+        amp = MAX_HEIGHT + 0.25f;
+        hertz = 0.5f * speed;   
     }
 	protected override float xMove(float time)
     {
@@ -17,11 +20,8 @@ public class Cube : Obstacles {
 
     protected override float yMove(float time)
     {
-        float hertz = 0.5f * speed;
-        float wavelength = 0.25f;
-        float waveincrease = 5.0f;
 
-        return Mathf.Sin(time * hertz) * wavelength * waveincrease + yStart;
+        return Mathf.Sin(time * hertz) * amp * waveScale + yStart;
     }
 
     protected override void movement()

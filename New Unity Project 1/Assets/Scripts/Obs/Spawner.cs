@@ -5,6 +5,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour {
     private const float DEF_SPWNTM = 6; // because 8 is a good number
     private float spawnTime, diff, maxSpawnTime;
+    private GameObject[] spawnPnts;
 	public float xSpawn;
 	public int totalLanes;
 	public List <GameObject> allCurrentObs;
@@ -35,6 +36,16 @@ public class Spawner : MonoBehaviour {
         totalLanes = lanes;
         maxSpawnTime = DEF_SPWNTM / diff;
     }//end createSpawnner
+
+    public void createSpawner(string obsType = "Cube", float strtDif = 1, GameObject[] strtPos = null)
+    {
+        obs = Objs.loadType(Objs.toObjType(obsType));
+        spawnPnts = strtPos;
+        diff = strtDif;
+        xSpawn = spawnPnts[0].transform.position.x;
+        totalLanes = spawnPnts.Length;
+        maxSpawnTime = DEF_SPWNTM / diff;
+    }
 
     //Allows us to incremente diff over time, or to change diff
     //if user finds game too hard
@@ -75,8 +86,19 @@ public class Spawner : MonoBehaviour {
 
     private void randomSpawn()
 	{
-		GameObject thisInstince = Instantiate (obs, new Vector3 (xSpawn, totalLanes, 0),
+
+        int spawnPoint = Random.Range(0, spawnPnts.Length);
+		GameObject thisInstince = Instantiate (obs, new Vector3 (xSpawn, spawnPnts[spawnPoint].transform.position.y, 0),
 			Quaternion.identity) as GameObject;
+        //To get the total lanes the object can go up and down, we have to do some math. However, this is cube specific, and should be circled back to.
+        int temp = spawnPnts.Length;
+        if (temp % 2 != 0)
+            temp = (temp - 1) / 2;
+        else
+            temp = temp / 2;
+
+        int totalLanes = -1 * Mathf.Abs(spawnPoint - temp) + temp;
+        Debug.Log("<color=green> Spawning " + obs.name + " with totalLanes " + totalLanes + "</color>");
 		thisInstince.GetComponent<Obstacles> ().
             setValues(totalLanes, 1, 5, this.gameObject, true);
         allCurrentObs.Add(thisInstince);
