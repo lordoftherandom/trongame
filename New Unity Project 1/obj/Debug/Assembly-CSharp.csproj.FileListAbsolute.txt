@@ -109,7 +109,6 @@ D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEngine.HoloLens.xml
 D:\code\trongame\New Unity Project 1\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
 D:\code\trongame\New Unity Project 1\obj\Debug\Assembly-CSharp.dll
 D:\code\trongame\New Unity Project 1\obj\Debug\Assembly-CSharp.pdb
-E:\trongame\New Unity Project 1\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
 E:\trongame\New Unity Project 1\obj\Debug\Assembly-CSharp.dll
 E:\trongame\New Unity Project 1\Temp\bin\Debug\Assembly-CSharp.dll
 E:\trongame\New Unity Project 1\Temp\bin\Debug\Assembly-CSharp.pdb
@@ -425,3 +424,6 @@ D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEngine.UIAutomation.xml
 D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEngine.GoogleAudioSpatializer.xml
 D:\code\trongame\New Unity Project 1\Temp\bin\Debug\UnityEngine.SpatialTracking.xml
 D:\code\trongame\New Unity Project 1\obj\Debug\Assembly-CSharp.csproj.CopyComplete
+E:\trongame\New Unity Project 1\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
+E:\trongame\New Unity Project 1\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
+E:\trongame\New Unity Project 1\obj\Debug\Assembly-CSharp.csproj.CopyComplete

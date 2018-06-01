@@ -8,14 +8,14 @@ public class Cube : Obstacles {
 	// Use this for initialization
 	protected override void Start () {
         base.Start();
-        yStart = transform.position.y;
+        yStart = transform.localPosition.y;
         waveScale = transform.localScale.y;
         amp = MAX_HEIGHT + 0.25f;
         hertz = 0.5f * speed;   
     }
 	protected override float xMove(float time)
     {
-        return -(time * speed) + transform.position.x;
+        return -(time * speed) + transform.localPosition.x;
     }
 
     protected override float yMove(float time)
@@ -27,11 +27,12 @@ public class Cube : Obstacles {
     protected override void movement()
     {
         float x, y;
-        x = xMove(Time.deltaTime);
-        y = yMove(Time.time);
+        //calculate movement in x and y. We multiple by lossycale to get accurate speeds
+        x = xMove(Time.deltaTime)*gameObject.transform.lossyScale.x;
+        y = yMove(Time.time) * gameObject.transform.lossyScale.y;
         Vector2 movVec = new Vector2(x, y);
         Vector2 refVec = Vector2.zero;
-        transform.position = Vector2.SmoothDamp(transform.position, movVec, ref refVec, 0.0f, 1000, Time.deltaTime);
+        transform.localPosition = Vector2.SmoothDamp(transform.localPosition, movVec, ref refVec, 0.0f, 1000, Time.deltaTime);
     }
     // Update is called once per frame
     protected override void Update () {

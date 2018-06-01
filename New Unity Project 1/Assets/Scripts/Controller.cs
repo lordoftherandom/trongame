@@ -3,86 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Controller : MonoBehaviour {
-	private float x; //To capture horizontal movement
-	private float y;
-	private Rigidbody2D hero; //To move hero around screen
-	public float speed; //The multiplier of speed for the hero
-	public float jumpForce; //How much force is applied to the hero on jump
-	private Vector2 movement;
-	public float delayMax;
-	//private float delay;
-	private bool delayX;
-	private bool delayY;
-	private float horMovement;
-	private float verMovement;
-	private ScaleToScreen scaleMultiple;
 
-	// Use this for initialization
-	void Start () {
-		hero = gameObject.GetComponent<Rigidbody2D>();
-		if (hero == null) {
+    #region Members
+    private Rigidbody2D hero; //To move hero around screen
+
+	public float speed; //The multiplier of speed for the hero
+
+    [SerializeField]
+    private const float smoothTime = 0.04f;//0.02 per frame
+    #endregion
+
+    #region Constructors
+    void Start () {
+		if((hero = gameObject.GetComponent<Rigidbody2D>())==null)
+        { 
 			gameObject.AddComponent<Rigidbody2D> ();
 			hero = gameObject.GetComponent<Rigidbody2D>();
-		} 
-		scaleMultiple = Camera.main.GetComponent<ScaleToScreen>();
-		delayX = false;
-		delayY = false;
-		horMovement = 1.0f;
-		verMovement = 2.0f;
-
+		}
 	}
 	
-	// Update is called once per frame
+	
 	void Update () {
-		x = Input.GetAxisRaw ("Horizontal");
-		y = Input.GetAxisRaw ("Vertical");
-		moveHero (x,y);
+        float x = Input.GetAxis("Horizontal");
+        float y = Input.GetAxis("Vertical");
+        moveHero(x, y);
+	}
+    #endregion
+
+    #region Functions
+    //Handles movement of the hero. allows us to pick between smoothMovement and roughMovement
+    //Should be phased into one or ther other before final release
+    void moveHero(float x, float y, bool smooth = true)
+    {
+        if (smooth)
+            smoothMove(x, y);
+        else
+            roughMove(x, y);
 
 	}
 
-	void FixedUpdate(){
-	}
-		
-	void moveHero(float xDir, float yDir)
-	{
-		int tempDir = 0;
-		if (!delayX) {
-			if (xDir > 0.0f) {
-				hero.MovePosition (new Vector2 (horMovement*scaleMultiple.GetScaleMultiple(), 0) + (new Vector2 (transform.position.x, transform.position.y)));
-				tempDir = 1;
-			} else if (xDir < 0.0f) {
-				hero.MovePosition (new Vector2 (-horMovement*scaleMultiple.GetScaleMultiple(), 0) + (new Vector2 (transform.position.x, transform.position.y)));
-				tempDir = -1;
-			}
-			StartCoroutine (delayCountX (tempDir));
-		}
-		if (!delayY) {
-			if (yDir > 0.0f) {
-				hero.MovePosition ((new Vector2 (0, verMovement*scaleMultiple.GetScaleMultiple())) + (new Vector2 (transform.position.x, transform.position.y)));
-				tempDir = 1;
-			} else if (yDir < 0.0f) {
-				hero.MovePosition ((new Vector2 (0, -verMovement*scaleMultiple.GetScaleMultiple())) + (new Vector2 (transform.position.x, transform.position.y)));
-				tempDir = -1;
-			}
-			StartCoroutine (delayCountY (tempDir));
-		}
+    //Applies speed to x && y inputs, creates des. vector, and smoothly moves the hero there
+    void smoothMove(float x, float y)
+    {
+        float xDir = x * speed, yDir = y * speed;
 
-		//jumpCheck (yDir);
+        Vector2 velocity = Vector2.zero;
+        Vector2 strtPos = hero.transform.position;
+        Vector2 trgPos = new Vector2(xDir , yDir) + strtPos;
+        
+        hero.transform.position = Vector2.SmoothDamp(strtPos, trgPos, ref velocity, smoothTime);
+    }
 
-	}
-		
-
-	IEnumerator delayCountY(int dir)
-	{
-		delayY = true;
-		yield return new WaitForSeconds (delayMax);
-		delayY = false;
-	}
-
-	IEnumerator delayCountX(int dir)
-	{
-		delayX = true;
-		yield return new WaitForSeconds (delayMax);
-		delayX = false;
-	}
+    void roughMove(float x, float y) { } //blank class, to be filled later
+    #endregion
 }

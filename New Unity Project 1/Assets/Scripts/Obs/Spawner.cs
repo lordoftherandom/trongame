@@ -9,6 +9,7 @@ public class Spawner : MonoBehaviour {
 	public float xSpawn;
 	public int totalLanes;
 	public List <GameObject> allCurrentObs;
+
 	private GameObject obs;
 
 
@@ -27,12 +28,12 @@ public class Spawner : MonoBehaviour {
     //Allows us to create new spawnners with w/e starting conditions we want. xStart and lanes
     //might be worked out in future releases
      public void createSpawner(string obsType = "Cube", float strtDif = 1, 
-        int lanes = 1, float xStart = 15)
+        int lanes = 1)
     {
         obs = Objs.loadType(Objs.toObjType(obsType));
 
         diff = strtDif;
-        xSpawn = xStart;
+        xSpawn = spawnPnts[0].transform.localPosition.x;
         totalLanes = lanes;
         maxSpawnTime = DEF_SPWNTM / diff;
     }//end createSpawnner
@@ -42,7 +43,7 @@ public class Spawner : MonoBehaviour {
         obs = Objs.loadType(Objs.toObjType(obsType));
         spawnPnts = strtPos;
         diff = strtDif;
-        xSpawn = spawnPnts[0].transform.position.x;
+        xSpawn = spawnPnts[0].transform.localPosition.x;
         totalLanes = spawnPnts.Length;
         maxSpawnTime = DEF_SPWNTM / diff;
     }
@@ -88,7 +89,7 @@ public class Spawner : MonoBehaviour {
 	{
 
         int spawnPoint = Random.Range(0, spawnPnts.Length);
-		GameObject thisInstince = Instantiate (obs, new Vector3 (xSpawn, spawnPnts[spawnPoint].transform.position.y, 0),
+		GameObject thisInstince = Instantiate (obs, new Vector3 (xSpawn, spawnPnts[spawnPoint].transform.localPosition.y, 0),
 			Quaternion.identity) as GameObject;
         //To get the total lanes the object can go up and down, we have to do some math. However, this is cube specific, and should be circled back to.
         int temp = spawnPnts.Length;
@@ -96,12 +97,18 @@ public class Spawner : MonoBehaviour {
             temp = (temp - 1) / 2;
         else
             temp = temp / 2;
-
         int totalLanes = -1 * Mathf.Abs(spawnPoint - temp) + temp;
+        //end math
+
         Debug.Log("<color=green> Spawning " + obs.name + " with totalLanes " + totalLanes + "</color>");
-		thisInstince.GetComponent<Obstacles> ().
-            setValues(totalLanes, 1, 5, this.gameObject, true);
+
+		thisInstince.GetComponent<Obstacles> ().setValues(totalLanes, 1, 5, this.gameObject, true);
         allCurrentObs.Add(thisInstince);
+
+        //set parent and scale for scaling purposes
+        thisInstince.transform.parent = gameObject.transform.parent;
+        thisInstince.transform.localScale = new Vector3(1,1,1);
+
 		spawnTime = maxSpawnTime;
 	}//end randomSpawn
 }
