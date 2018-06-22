@@ -6,8 +6,8 @@ public class Controller : MonoBehaviour {
 
     #region Members
     private Rigidbody2D hero; //To move hero around screen
-
 	public float speed; //The multiplier of speed for the hero
+    public bool mvmntEnabled;
 
     [SerializeField]
     private const float smoothTime = 0.04f;//0.02 per frame
@@ -20,13 +20,15 @@ public class Controller : MonoBehaviour {
 			gameObject.AddComponent<Rigidbody2D> ();
 			hero = gameObject.GetComponent<Rigidbody2D>();
 		}
+        mvmntEnabled = true;
 	}
 	
 	
 	void Update () {
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
-        moveHero(x, y);
+        if(mvmntEnabled)
+            moveHero(x, y);
 	}
     #endregion
 
@@ -48,10 +50,9 @@ public class Controller : MonoBehaviour {
         float xDir = x * speed, yDir = y * speed;
 
         Vector2 velocity = Vector2.zero;
-        Vector2 strtPos = hero.transform.position;
+        Vector2 strtPos = hero.transform.localPosition;
         Vector2 trgPos = new Vector2(xDir , yDir) + strtPos;
-        
-        hero.transform.position = Vector2.SmoothDamp(strtPos, trgPos, ref velocity, smoothTime);
+        hero.transform.localPosition = Vector2.SmoothDamp(strtPos, trgPos, ref velocity, smoothTime);
     }
 
     void roughMove(float x, float y) { } //blank class, to be filled later

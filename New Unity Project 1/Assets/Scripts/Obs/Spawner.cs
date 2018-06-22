@@ -89,8 +89,7 @@ public class Spawner : MonoBehaviour {
 	{
 
         int spawnPoint = Random.Range(0, spawnPnts.Length);
-		GameObject thisInstince = Instantiate (obs, new Vector3 (xSpawn, spawnPnts[spawnPoint].transform.localPosition.y, 0),
-			Quaternion.identity) as GameObject;
+        GameObject thisInstince = Instantiate(obs, spawnPnts[spawnPoint].transform) as GameObject;
         //To get the total lanes the object can go up and down, we have to do some math. However, this is cube specific, and should be circled back to.
         int temp = spawnPnts.Length;
         if (temp % 2 != 0)
@@ -109,6 +108,7 @@ public class Spawner : MonoBehaviour {
         thisInstince.transform.parent = gameObject.transform.parent;
         thisInstince.transform.localScale = new Vector3(1,1,1);
 
-		spawnTime = maxSpawnTime;
+        //we use five here because that is currently the max speed. NO MAGIC NUMBERS
+		spawnTime = (maxSpawnTime/5)*(thisInstince.GetComponent<Obstacles>().getSpeed());
 	}//end randomSpawn
 }

@@ -6,7 +6,6 @@ public class Map : MonoBehaviour {
     private GameObject spawner, parent;
     private List<GameObject> allSpawners;
     private readonly string[] objs = { "Circle", "Cube", "Prisim" };
-    private int[] spwnWeights = { 5, 1, 1 }; //We want the most circles to spawn
     private const float DEF_SPAWNTM = 80;
     private float spwnrTm, maxSpwnrTm;
     private int diff;
@@ -47,13 +46,13 @@ public class Map : MonoBehaviour {
             totalWeight += Objs.getWeight(element);
         }
 
-        int select = Random.Range(0, totalWeight);
-        //We reset value of total weight to reuse it in seeing what obs should spawn
-        totalWeight = 0;
+        int select = Random.Range(0, totalWeight);//This is our object!
+      
+        int wghtSoFar = 0;
         foreach (ObjType element in System.Enum.GetValues(typeof(ObjType)))
         {
             //When total weigth <= totalweight + possible current obs weight, we have found our obs type to spawn
-            if (select <= (totalWeight += Objs.getWeight(element)))
+            if (select <= (wghtSoFar += Objs.getWeight(element)))
             {
                 //Set timer to be a function of maxSpawnTime/how likely obj was to spawn.
                 timer = timer/Objs.getWeight(element); 

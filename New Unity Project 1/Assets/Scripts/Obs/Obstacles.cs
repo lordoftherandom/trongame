@@ -62,6 +62,11 @@ public abstract class Obstacles : MonoBehaviour {
             speed = Random.Range(minSp, maxSp);
     }//end setSpeed
 
+    public float getSpeed()
+    {
+        return speed;
+    }
+
     private void setRotation()
     {
         float xRotate = 50, yRotate = 50, zRotate = 50;
