@@ -12,7 +12,7 @@ public abstract class Obstacles : MonoBehaviour {
     protected int objID;
 	private bool rotate;
 	private Vector3 rotateVec;
-    protected float MAX_HEIGHT, speed;
+    public float MAX_HEIGHT, speed;
 	protected GameObject parent;
 
 	protected virtual void Start () {

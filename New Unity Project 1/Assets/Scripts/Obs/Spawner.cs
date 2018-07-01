@@ -101,13 +101,15 @@ public class Spawner : MonoBehaviour {
 
         Debug.Log("<color=green> Spawning " + obs.name + " with totalLanes " + totalLanes + "</color>");
 
-		thisInstince.GetComponent<Obstacles> ().setValues(totalLanes, 1, 5, this.gameObject, true);
+	    thisInstince.GetComponent<Obstacles> ().setValues(totalLanes, 1, 5, this.gameObject, true);
         allCurrentObs.Add(thisInstince);
 
         //set parent and scale for scaling purposes
         thisInstince.transform.parent = gameObject.transform.parent;
         thisInstince.transform.localScale = new Vector3(1,1,1);
-
+        thisInstince.GetComponentInChildren<Renderer>().material.color = 
+            Colors.MakeColor(thisInstince.GetComponent<Obstacles>().speed);
+        Debug.Log("Color is " + thisInstince.GetComponentInChildren<Renderer>().material.color);
         //we use five here because that is currently the max speed. NO MAGIC NUMBERS
 		spawnTime = (maxSpawnTime/5)*(thisInstince.GetComponent<Obstacles>().getSpeed());
 	}//end randomSpawn
