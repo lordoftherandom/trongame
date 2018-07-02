@@ -44,22 +44,24 @@ public abstract class Obstacles : MonoBehaviour {
 		return parent;
 	}//end getParent
 
-    public void setValues(float height, int minSp, int maxSp, GameObject creator, bool rt = true)
+    public void setValues(float spawnpoint, float minSp, float maxSp, GameObject creator, bool rt = true)
     {
-        MAX_HEIGHT = height;
         rotate = rt;
         parent = creator;
         setSpeed(minSp, maxSp);
         if (rotate)
             setRotation();
+        SetColor();
+        SetHeight(spawnpoint);
+
     }//end setValues
 
-    private void setSpeed(int minSp, int maxSp)
+    private void setSpeed(float minSp, float maxSp)
     {
         if (minSp == maxSp)
             speed = 1;
         else
-            speed = Random.Range(minSp, maxSp);
+            speed = Random.Range(Mathf.FloorToInt(minSp), Mathf.CeilToInt(maxSp));
     }//end setSpeed
 
     public float getSpeed()
@@ -89,6 +91,14 @@ public abstract class Obstacles : MonoBehaviour {
         rotateVec = new Vector3(xRotate, yRotate, zRotate);
     }//end setRotation
 
+    private void SetColor()
+    {
+        Color newcolor = Colors.MakeColor(speed);
+        GetComponentInChildren<Renderer>().material.color = newcolor;
+        GetComponentInChildren<Light>().color = newcolor;
+    }
+
+    protected abstract void SetHeight(float spawnpoint);
     protected abstract void movement();
     protected abstract float xMove(float time);
     protected abstract float yMove(float time);

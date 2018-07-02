@@ -5,9 +5,10 @@ using UnityEngine;
 public class Map : MonoBehaviour {
     private GameObject spawner, parent;
     private List<GameObject> allSpawners;
-    private readonly string[] objs = { "Circle", "Cube", "Prisim" };
+    //private readonly string[] objs = { "Sphr", "Cube", "Pyrd" };
     private const float DEF_SPAWNTM = 80;
-    private float spwnrTm, maxSpwnrTm;
+    private float spwnrTm, maxSpwnrTm, minspeed, maxspeed;
+    private const float incre_minspeed = 0.25f, incre_maxspeed = 0.5f;
     private int diff;
     public GameObject[] spawnPoints;
     
@@ -22,6 +23,8 @@ public class Map : MonoBehaviour {
 
         maxSpwnrTm = DEF_SPAWNTM;
         spwnrTm = 0;
+        minspeed = 1;
+        maxspeed = 5;
     }
 	
 	// Every frame we count spwnrTm down. Once 0, we spawn a spawner
@@ -62,7 +65,9 @@ public class Map : MonoBehaviour {
                     + " spawner</color>");
 
                 GameObject spwnInst = Instantiate(spawner) as GameObject;
-                spwnInst.GetComponent<Spawner>().createSpawner(element.ToString(), diff, spawnPoints);
+                spwnInst.GetComponent<Spawner>().createSpawner(element.ToString(), diff, minspeed, maxspeed, spawnPoints);
+                minspeed += incre_minspeed;
+                maxspeed += incre_maxspeed;
                 //Set spawner's parent to the parent gameobject for scaleing reasons
                 spwnInst.transform.parent = parent.transform;
 

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public static class Colors {
 
-    //May not end up using other colors
+    //May not end up using these colors
     private static Color squrcolor = Color.magenta, sphrcolor = Color.magenta, pyrcolor = Color.magenta;
-    private static float maxspeed = 0; //starts at 0, but will go higher as the speed increases
+    private static float maxspeed = 7; //starts at 0, but will go higher as the speed increases
 
     //maybe try anothe rthing instead
     public static Color GetColor(ObjType objs, float speed)
@@ -39,11 +39,10 @@ public static class Colors {
         red = currspeed / maxspeed;
 
         //To allow for pure blues...
-        if (red < 0.125)
+        if (red <= 1/maxspeed)
             red = 0;
-
         blue = 1 - red;
-        Debug.Log("Color will have blue " + blue + " red " + red);
+
         return new Color(red, 0, blue, 1);
     }
 

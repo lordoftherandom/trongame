@@ -29,6 +29,8 @@ public class Controller : MonoBehaviour {
         float y = Input.GetAxis("Vertical");
         if(mvmntEnabled)
             moveHero(x, y);
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
+            Time.timeScale = ++Time.timeScale;
 	}
     #endregion
 
@@ -74,9 +76,9 @@ public class Controller : MonoBehaviour {
 
         float length;
         if (Mathf.Abs(dir.x) > 0)
-            length = 0.65f;
+            length = 0.45f;
         else
-            length = 1.15f;
+            length = 0.90f;
         Debug.DrawRay((Vector2)transform.position, dir*length, Color.red, 1, false);
         return Physics2D.Raycast((Vector2)transform.position, dir, length);
     }
