@@ -14,6 +14,7 @@ public abstract class Obstacles : MonoBehaviour {
 	private Vector3 rotateVec;
     public float MAX_HEIGHT, speed;
 	protected GameObject parent;
+    public GameObject spawner;
 
 	protected virtual void Start () {
         objID = count++;

@@ -31,35 +31,6 @@ public class onHit : MonoBehaviour {
 			collTime -= Time.deltaTime;
 		}
 	}
-    
-    /*private void OnCollisionEnter2D(Collision2D other)
-    {
-        Debug.Log("Hit " + other.gameObject.name);
-        float force = 3.0f;
-
-        if (other.gameObject.tag == "Wall")
-        {
-            GetComponent<Controller>().mvmntEnabled = false;
-
-            Vector2 dir = other.contacts[0].point - (Vector2) transform.position;
-            dir = -dir.normalized;
-
-            if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
-                dir.y = 0;
-            else
-                dir.x = 0;
-            dir = dir.normalized;
-
-            float xDir = dir.x * force, yDir = dir.y * force;
-
-            Vector2 velocity = Vector2.zero;
-            Vector2 strtPos = transform.position;
-            Vector2 trgPos = new Vector2(xDir, yDir) + strtPos;
-            transform.position = Vector2.SmoothDamp(strtPos, trgPos, ref velocity, 0.06f);
-
-            GetComponent<Controller>().mvmntEnabled = true;
-        }
-    }*/
 
     void OnTriggerEnter2D (Collider2D other)
 	{
@@ -67,7 +38,6 @@ public class onHit : MonoBehaviour {
 			if (!collHappened)
 				StartCoroutine (noHurtMe());
 		}
- 
     }
 
 	IEnumerator noHurtMe()
@@ -81,13 +51,4 @@ public class onHit : MonoBehaviour {
 		curTransTime = 0.0f;
 		collTime = 0.0f;
 	}
-
-    IEnumerator waitForTime(float time)
-    {
-        gameObject.GetComponent<Controller>().enabled = false;
-        gameObject.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(0, 100));
-        yield return new WaitForSeconds(time);
-        gameObject.GetComponent<Controller>().enabled = true;
-        gameObject.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(0, -100));
-    }
 }

@@ -58,7 +58,12 @@ public class Map : MonoBehaviour {
             if (select <= (wghtSoFar += Objs.getWeight(element)))
             {
                 //Set timer to be a function of maxSpawnTime/how likely obj was to spawn.
-                timer = timer/Objs.getWeight(element); 
+                float divisor;
+                if((divisor = totalWeight - Objs.getWeight(element)) <= 0)
+                {
+                    divisor = 1;
+                }
+                timer = timer/divisor; 
                 Objs.changeWeights(element);
 
                 Debug.Log("<color=green>We are adding " + element.ToString()
@@ -77,4 +82,23 @@ public class Map : MonoBehaviour {
         }
         return timer;
     }//end spawnSpawner
+
+    //Invoked by a spawner that is about to destroy itself
+    public void RemoveSpawner(GameObject spawner)
+    {
+        if (!allSpawners.Remove(spawner))
+            Debug.Log("Not an actual spawner");
+    }
+
+    //Used to invoke spawners hide/unhideobs functions. Should only be used on pause
+    public void HideObs()
+    {
+        foreach(GameObject spawner in allSpawners)
+            spawner.GetComponent<Spawner>().HideObs();
+    }
+    public void UnHideObs()
+    {
+        foreach (GameObject spawner in allSpawners)
+            spawner.GetComponent<Spawner>().UnHideObs();
+    }
 }

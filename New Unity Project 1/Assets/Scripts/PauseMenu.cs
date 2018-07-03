@@ -5,22 +5,22 @@ using UnityEngine;
 
 public class PauseMenu : MonoBehaviour {
 	public Canvas pauseMenu;
-	private GameObject spawnerHolder;
+	private GameObject map;
 	// Use this for initialization
 	void Start () {
 		pauseMenu.GetComponent<Canvas> ().enabled = false;
-		spawnerHolder = GameObject.FindGameObjectWithTag ("Spawner");
+		map = GameObject.FindGameObjectWithTag ("Parent");
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetButtonDown("Cancel") && pauseMenu.GetComponent<Canvas> ().enabled == false) {
-			spawnerHolder.GetComponent<Spawner> ().HideObs ();
+			map.GetComponent<Map> ().HideObs ();
 			Time.timeScale = 0.0f;
 			pauseMenu.GetComponent<Canvas> ().enabled = true;
 		} else if (Input.GetButtonDown("Cancel") && pauseMenu.GetComponent<Canvas> ().enabled == true) {
 			Time.timeScale = 1.0f;
-			spawnerHolder.GetComponent<Spawner> ().UnHideObs ();
+			map.GetComponent<Map> ().UnHideObs ();
 			pauseMenu.GetComponent<Canvas> ().enabled = false;
 		}
 		}
