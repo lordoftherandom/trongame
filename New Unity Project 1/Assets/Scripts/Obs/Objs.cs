@@ -9,7 +9,7 @@ public enum ObjType
 
 public static class Objs {
 
-    private static int[] weights = { 3, 1, 1 };
+    private static int[] weights = { 3, 1, 2 };
 
     public static ObjType toObjType(string obj)
     {

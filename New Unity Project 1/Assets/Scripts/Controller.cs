@@ -5,7 +5,6 @@ using UnityEngine;
 public class Controller : MonoBehaviour {
 
     #region Members
-    private Rigidbody2D hero; //To move hero around screen
 	public float speed; //The multiplier of speed for the hero
     public bool mvmntEnabled;
 
@@ -15,11 +14,8 @@ public class Controller : MonoBehaviour {
 
     #region Constructors
     void Start () {
-		if((hero = gameObject.GetComponent<Rigidbody2D>())==null)
-        { 
+		if(gameObject.GetComponent<Rigidbody2D>()==null)
 			gameObject.AddComponent<Rigidbody2D> ();
-			hero = gameObject.GetComponent<Rigidbody2D>();
-		}
         mvmntEnabled = true;
 	}
 	

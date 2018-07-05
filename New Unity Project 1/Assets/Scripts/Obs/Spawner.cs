@@ -5,7 +5,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour {
     private const float DEF_SPWNTM = 6; // because 6 is a good number
     private const int TOTAL_SPAWNS = 25;
-    private float minspeed, maxspeed, xSpawn;
+    private float minspeed, maxspeed;
     private float spawnTime, diff, maxSpawnTime;
     private GameObject[] spawnPnts;
     private int objstilldeath;
@@ -49,7 +49,6 @@ public class Spawner : MonoBehaviour {
         obs = Objs.loadType(Objs.toObjType(obsType));
         spawnPnts = strtPos;
         diff = strtDif;
-        xSpawn = spawnPnts[0].transform.localPosition.x;
         totalLanes = spawnPnts.Length;
         maxSpawnTime = DEF_SPWNTM / diff;
         minspeed = smspeed;
