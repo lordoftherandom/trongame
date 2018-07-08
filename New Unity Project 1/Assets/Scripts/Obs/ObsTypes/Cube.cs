@@ -5,6 +5,12 @@ using UnityEngine;
 public class Cube : Obstacles
 {
 
+    protected override void Start()
+    {
+        base.Start();
+        scorefactor = 1f;
+    }
+
     protected override void SetHeight(float spawnpoint)
     {
         MAX_HEIGHT = 1;

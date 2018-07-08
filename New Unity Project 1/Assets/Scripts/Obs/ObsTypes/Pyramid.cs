@@ -10,6 +10,7 @@ public class Pyramid : Obstacles {
     protected override void Start()
     {
         base.Start();
+        scorefactor = 1.5f;
         yStart = transform.localPosition.y-.75f;
         waveScale = transform.localScale.y;
         amp = MAX_HEIGHT;

@@ -10,6 +10,7 @@ public class Sphere : Obstacles
     protected override void Start()
     {
         base.Start();
+        scorefactor = 2.0f;
         yStart = transform.localPosition.y;
         waveScale = transform.localScale.y;
         amp = MAX_HEIGHT;

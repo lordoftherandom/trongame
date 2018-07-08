@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DestroyObjs : MonoBehaviour {
-	void Start () { }
+    GameObject HUD;
+	void Start () { HUD = GameObject.FindGameObjectWithTag("HUD"); }
 	void Update () { }
 
     //Where points should be added
@@ -11,8 +12,9 @@ public class DestroyObjs : MonoBehaviour {
     {
         if (other.gameObject.tag == "Obstacle")
         {
-            other.gameObject.GetComponent<Obstacles>().spawner
-                .GetComponent<Spawner>().Remove(other.gameObject);
+            Obstacles obsscript = other.gameObject.GetComponent<Obstacles>();
+            obsscript.spawner.GetComponent<Spawner>().Remove(other.gameObject);
+            HUD.GetComponent<HUDCommands>().ScoreIncrease(obsscript.scorefactor);
         }
     }
 }

@@ -16,6 +16,12 @@ public abstract class Obstacles : MonoBehaviour {
 	protected GameObject parent;
     public GameObject spawner;
 
+    public float scorefactor
+    {
+        protected set;
+        get;
+    }
+
 	protected virtual void Start () {
         objID = count++;
 	}//end start
