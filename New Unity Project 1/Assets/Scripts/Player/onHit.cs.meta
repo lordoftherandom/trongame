@@ -1,10 +1,11 @@
 fileFormatVersion: 2
 guid: 6ade7e5a77a834340b3de923b8d2514f
-timeCreated: 1503629895
-licenseType: Free
 MonoImporter:
+  externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - gameoverscreen: {fileID: 1775101864058828, guid: fdb3e10aa38dcfa4d818642aa2cd5279,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

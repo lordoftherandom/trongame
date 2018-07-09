@@ -11,6 +11,8 @@ public class onHit : MonoBehaviour {
 	private float collTime;
     private Renderer heroSkin;
     private GameObject HUD;
+    [SerializeField]
+    private GameObject gameoverscreen;
 
 	void Start () {
 		collHappened = false;
@@ -64,6 +66,7 @@ public class onHit : MonoBehaviour {
 
     void GameOver()
     {
-
+        Instantiate(gameoverscreen);
+        Destroy(gameObject);
     }
 }

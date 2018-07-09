@@ -16,12 +16,6 @@ public class Cube : Obstacles
         MAX_HEIGHT = 1;
     }
 
-    protected override void Update()
-    {
-        base.Update();
-        movement();
-    }
-
     protected override float xMove(float time)
     {
         return -(time * speed) + transform.localPosition.x;

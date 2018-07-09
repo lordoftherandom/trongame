@@ -101,15 +101,16 @@ public class Spawner : MonoBehaviour {
         objstilldeath--;
         int spawnPoint = Random.Range(0, spawnPnts.Length);
         GameObject thisInstince = Instantiate(obs, spawnPnts[spawnPoint].transform) as GameObject;
+        
+        //set parent and scale for scaling purposes
+        thisInstince.transform.parent = gameObject.transform.parent;
+        thisInstince.transform.localScale = new Vector3(1, 1, 1);
+
         thisInstince.transform.position = thisInstince.transform.position + new Vector3(0, -0.25f);
 
 	    thisInstince.GetComponent<Obstacles>().setValues(spawnPoint, minspeed, maxspeed, this.gameObject, true);
         thisInstince.GetComponent<Obstacles>().spawner = this.gameObject;
         allCurrentObs.Add(thisInstince);
-
-        //set parent and scale for scaling purposes
-        thisInstince.transform.parent = gameObject.transform.parent;
-        thisInstince.transform.localScale = new Vector3(1,1,1);
 
         //we use five here because that is currently the max speed. NO MAGIC NUMBERS
 		spawnTime = (maxSpawnTime/5)*(thisInstince.GetComponent<Obstacles>().getSpeed());

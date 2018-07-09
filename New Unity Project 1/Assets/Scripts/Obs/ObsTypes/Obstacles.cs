@@ -28,10 +28,11 @@ public abstract class Obstacles : MonoBehaviour {
 
 	
 	// Update is called once per frame
-	protected virtual void Update () {
+	protected virtual void FixedUpdate () {
 		float time = Time.deltaTime;
 		if (rotate)
 			transform.Rotate (rotateVec * time);
+        movement();
 	}//end Update
 
 	public void destroy()

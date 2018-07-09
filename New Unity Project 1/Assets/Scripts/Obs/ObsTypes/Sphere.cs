@@ -4,56 +4,104 @@ using UnityEngine;
 
 public class Sphere : Obstacles
 {
-    private float yStart;
-    private float hertz, amp, waveScale;
+    private float radius, xoncircle, yoncirlce, radiussqrt, 
+        currx, ystart;
     // Use this for initialization
     protected override void Start()
     {
         base.Start();
         scorefactor = 2.0f;
-        yStart = transform.localPosition.y;
-        waveScale = transform.localScale.y;
-        amp = MAX_HEIGHT;
-        hertz = 0.5f * speed;
     }
-
+    
+    //Because of circle movements, we must ensure spot has 2 lanes of space minimum
     protected override void SetHeight(float spawnpoint)
     {
-        //To get the total lanes the object can go up and down, we have to do some math. However, this is cube specific, and should be circled back to.
-        int temp = Spawner.totalLanes;
-        if (temp % 2 != 0)
-            temp = (temp - 1) / 2;
+        MAX_HEIGHT = spawnpoint;
+        //values are hardcoded; should be changed
+        if (spawnpoint < 1 || spawnpoint > 3)
+        {
+            radius = 0.25f;
+            if (spawnpoint == 0)
+            {
+                Debug.Log("Coming into low. Adjusting");
+                gameObject.transform.localPosition = 
+                    new Vector2(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y + 0.5f);
+            }
+            else
+            {
+                Debug.Log("Coming into high. Adjusting");
+                gameObject.transform.localPosition = 
+                    new Vector2( gameObject.transform.localPosition.x, gameObject.transform.localPosition.y - 0.5f);
+            }
+        }
         else
-            temp = temp / 2;
-        MAX_HEIGHT = (int)(-1 * Mathf.Abs(spawnpoint - temp) + temp);
-        //end math
+            radius = Random.Range(0.25f, 2.0f-Mathf.Abs(spawnpoint-2.0f));
+
+        radiussqrt = Mathf.Sqrt(radius);
+        xoncircle = radiussqrt;
+        yoncirlce = 0.0f;
+        currx = gameObject.transform.localPosition.x;
+        ystart = gameObject.transform.localPosition.y;
     }
 
     protected override float xMove(float time)
     {
-        return -(time * speed) + transform.localPosition.x;
+        currx -= time;
+        xoncircle = (xoncircle + speed*time) % (radiussqrt*4);
+
+        if (xoncircle <= radiussqrt * 2)
+        {
+            float newxcircle;
+            newxcircle = xoncircle - radiussqrt;
+            newxcircle *= newxcircle;
+
+            newxcircle = radius - newxcircle;
+            return Mathf.Sqrt(newxcircle);
+        }
+        else
+        {
+            float newxcircle;
+            newxcircle = xoncircle - radiussqrt * 3;
+            newxcircle *= newxcircle;
+
+            newxcircle = radius - newxcircle;
+            return Mathf.Sqrt(newxcircle) * -1;
+        }
     }
 
     protected override float yMove(float time)
     {
+        yoncirlce = (yoncirlce + speed*time) % (radiussqrt * 4);
 
-        return Mathf.Sin(time * hertz) * amp * waveScale + yStart;
+        if(yoncirlce <= radiussqrt*2)
+        {
+            float newycircle;
+            newycircle = yoncirlce - radiussqrt;
+            newycircle *= newycircle;
+
+            newycircle = radius - newycircle;
+            return Mathf.Sqrt(newycircle);
+        }
+        else
+        {
+            float newycircle;
+            newycircle = yoncirlce - radiussqrt * 3;
+            newycircle *= newycircle;
+
+            newycircle = radius - newycircle;
+            return Mathf.Sqrt(newycircle)*-1;
+        }
     }
 
     protected override void movement()
     {
         float x, y;
         //calculate movement in x and y. We multiple by lossycale to get accurate speeds
-        x = xMove(Time.deltaTime) * gameObject.transform.lossyScale.x;
-        y = yMove(Time.time) * gameObject.transform.lossyScale.y;
+        x = (xMove(Time.deltaTime) + currx*speed) * gameObject.transform.lossyScale.x;
+        y = (yMove(Time.deltaTime) + ystart) * gameObject.transform.lossyScale.y;
         Vector2 movVec = new Vector2(x, y);
         Vector2 refVec = Vector2.zero;
-        transform.localPosition = Vector2.SmoothDamp(transform.localPosition, movVec, ref refVec, 0.0f, 1000, Time.deltaTime);
+        transform.localPosition = movVec;
     }
 
-    protected override void Update()
-    {
-        base.Update();
-        movement();
-    }
 }

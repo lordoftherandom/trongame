@@ -19,14 +19,12 @@ public class Pyramid : Obstacles {
 
     protected override void SetHeight(float spawnpoint)
     {
-        //To get the total lanes the object can go up and down, we have to do some math. However, this is cube specific, and should be circled back to.
         int temp = Spawner.totalLanes;
         if (temp % 2 != 0)
             temp = (temp - 1) / 2;
         else
             temp = temp / 2;
         MAX_HEIGHT = (int)(-1 * Mathf.Abs(spawnpoint - temp) + temp);
-        //end math
     }
 
     protected override float xMove(float time)
@@ -49,11 +47,5 @@ public class Pyramid : Obstacles {
         Vector2 movVec = new Vector2(x, y);
         Vector2 refVec = Vector2.zero;
         transform.localPosition = Vector2.SmoothDamp(transform.localPosition, movVec, ref refVec, 0.0f, 1000, Time.deltaTime);
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-        movement();
     }
 }

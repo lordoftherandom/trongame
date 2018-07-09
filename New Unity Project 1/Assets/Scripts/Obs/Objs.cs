@@ -51,6 +51,7 @@ public static class Objs {
 
     public static GameObject loadType(ObjType obj)
     {
+        return Resources.Load("Sphr", typeof(GameObject)) as GameObject;
         GameObject obs;
         Debug.Log("Loading object " + obj.ToString());
         if ((obs = Resources.Load(obj.ToString(), typeof(GameObject)) as GameObject) == null)
