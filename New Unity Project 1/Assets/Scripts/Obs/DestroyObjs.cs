@@ -13,8 +13,12 @@ public class DestroyObjs : MonoBehaviour {
         if (other.gameObject.tag == "Obstacle")
         {
             Obstacles obsscript = other.gameObject.GetComponent<Obstacles>();
-            obsscript.spawner.GetComponent<Spawner>().Remove(other.gameObject);
             HUD.GetComponent<HUDCommands>().ScoreIncrease(obsscript.scorefactor);
+            obsscript.destroy();
+        }
+        else if(other.gameObject.tag == "Powerup")
+        {
+            other.gameObject.GetComponent<Obstacles>().destroy();
         }
     }
 }

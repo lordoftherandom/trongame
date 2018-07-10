@@ -9,13 +9,17 @@ using UnityEngine;
 //Modifed: 05-19-18
 public abstract class Obstacles : MonoBehaviour {
     static int count = 0; //debugging purpose only
-    protected int objID;
+    public int objID
+    {
+        protected set;
+        get;
+    }
 	private bool rotate;
+    public bool isPowerup;
 	private Vector3 rotateVec;
     public float MAX_HEIGHT, speed;
 	protected GameObject parent;
-    public GameObject spawner;
-
+    public Spawner spawner;
     public float scorefactor
     {
         protected set;
@@ -23,7 +27,7 @@ public abstract class Obstacles : MonoBehaviour {
     }
 
 	protected virtual void Start () {
-        objID = count++;
+
 	}//end start
 
 	
@@ -37,9 +41,7 @@ public abstract class Obstacles : MonoBehaviour {
 
 	public void destroy()
 	{
-		parent.GetComponent<Spawner>().Remove (this.gameObject);
-		Destroy (this.gameObject);
-	
+        spawner.Remove(this.gameObject);
 	}//end destroy
 
 	public void chgnSpeed(float x)
@@ -54,6 +56,7 @@ public abstract class Obstacles : MonoBehaviour {
 
     public void setValues(float spawnpoint, float minSp, float maxSp, GameObject creator, bool rt = true)
     {
+        objID = count++;
         rotate = rt;
         parent = creator;
         setSpeed(minSp, maxSp);
@@ -101,7 +104,11 @@ public abstract class Obstacles : MonoBehaviour {
 
     private void SetColor()
     {
-        Color newcolor = Colors.MakeColor(speed);
+        Color newcolor;
+        if (!isPowerup)
+            newcolor = Colors.MakeColor(speed);
+        else
+            newcolor = Color.white;
         GetComponentInChildren<Renderer>().material.color = newcolor;
         GetComponentInChildren<Light>().color = newcolor;
     }

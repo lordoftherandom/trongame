@@ -9,7 +9,7 @@ public enum ObjType
 
 public static class Objs {
 
-    private static int[] weights = { 3, 1, 2 };
+    private static int[] weights = { 5, 2, 3 };
 
     public static ObjType toObjType(string obj)
     {
@@ -32,6 +32,11 @@ public static class Objs {
         return weights[(int)obj];
     }//end getWeight
 
+    public static int GetTotalObjs()
+    {
+        return weights.Length;
+    }
+
     //Should be called when a spawner of any type is created
     //First adds 1 to the lowest valued type, and subtracts
     //one from the lowest value
@@ -51,7 +56,6 @@ public static class Objs {
 
     public static GameObject loadType(ObjType obj)
     {
-        return Resources.Load("Sphr", typeof(GameObject)) as GameObject;
         GameObject obs;
         Debug.Log("Loading object " + obj.ToString());
         if ((obs = Resources.Load(obj.ToString(), typeof(GameObject)) as GameObject) == null)

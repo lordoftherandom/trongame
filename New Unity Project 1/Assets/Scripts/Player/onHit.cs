@@ -10,7 +10,7 @@ public class onHit : MonoBehaviour {
 	private float curTransTime;
 	private float collTime;
     private Renderer heroSkin;
-    private GameObject HUD;
+    private HUDCommands HUD;
     [SerializeField]
     private GameObject gameoverscreen;
 
@@ -18,7 +18,7 @@ public class onHit : MonoBehaviour {
 		collHappened = false;
 		curTransTime = 0.0f;
         heroSkin = gameObject.GetComponent<Renderer>();
-        HUD = GameObject.FindGameObjectWithTag("HUD");
+        HUD = GameObject.FindGameObjectWithTag("HUD").GetComponent<HUDCommands>();
 	}
 	
 
@@ -30,14 +30,49 @@ public class onHit : MonoBehaviour {
     void OnTriggerEnter2D (Collider2D other)
 	{
 		if (other.gameObject.tag == "Obstacle") {
-			if (!collHappened)
-				StartCoroutine (noHurtMe());
+            if (!collHappened)
+            {
+                other.GetComponent<Obstacles>().destroy();
+                StartCoroutine(noHurtMe());
+            }
 		}
+        else if(other.gameObject.tag == "Powerup")
+        {
+            if(!collHappened)
+            {
+                //do effect of powerup, for now, points!
+                Obstacles objScript = other.GetComponent<Obstacles>();
+                HUD.ScoreIncrease(objScript.scorefactor);
+                objScript.destroy();
+            }
+        }
     }
 
-	IEnumerator noHurtMe()
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Obstacle")
+        {
+            if (!collHappened)
+            {
+                other.GetComponent<Obstacles>().destroy();
+                StartCoroutine(noHurtMe());
+            }
+        }
+        else if (other.gameObject.tag == "Powerup")
+        {
+            if (!collHappened)
+            {
+                //do effect of powerup, for now, points!
+                Obstacles objScript = other.GetComponent<Obstacles>();
+                HUD.ScoreIncrease(objScript.scorefactor);
+                objScript.destroy();
+            }
+        }
+    }
+
+    IEnumerator noHurtMe()
 	{
-        if(!HUD.GetComponent<HUDCommands>().HeroHit())
+        if(!HUD.HeroHit())
             GameOver();
         collTime = invicTime;
         collHappened = true;

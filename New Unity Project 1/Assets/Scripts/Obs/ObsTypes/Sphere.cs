@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Sphere : Obstacles
 {
-    private float radius, xoncircle, yoncirlce, radiussqrt, 
-        currx, ystart;
+    private float radius, ystart, xCurr,slowDown = 1.25f;
     // Use this for initialization
     protected override void Start()
     {
@@ -23,13 +22,13 @@ public class Sphere : Obstacles
             radius = 0.25f;
             if (spawnpoint == 0)
             {
-                Debug.Log("Coming into low. Adjusting");
+                Debug.Log("Coming in too low. Adjusting");
                 gameObject.transform.localPosition = 
                     new Vector2(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y + 0.5f);
             }
             else
             {
-                Debug.Log("Coming into high. Adjusting");
+                Debug.Log("Coming in too high. Adjusting");
                 gameObject.transform.localPosition = 
                     new Vector2( gameObject.transform.localPosition.x, gameObject.transform.localPosition.y - 0.5f);
             }
@@ -37,68 +36,28 @@ public class Sphere : Obstacles
         else
             radius = Random.Range(0.25f, 2.0f-Mathf.Abs(spawnpoint-2.0f));
 
-        radiussqrt = Mathf.Sqrt(radius);
-        xoncircle = radiussqrt;
-        yoncirlce = 0.0f;
-        currx = gameObject.transform.localPosition.x;
+        radius *= 2;
+        xCurr = gameObject.transform.localPosition.x;
         ystart = gameObject.transform.localPosition.y;
     }
 
     protected override float xMove(float time)
     {
-        currx -= time;
-        xoncircle = (xoncircle + speed*time) % (radiussqrt*4);
-
-        if (xoncircle <= radiussqrt * 2)
-        {
-            float newxcircle;
-            newxcircle = xoncircle - radiussqrt;
-            newxcircle *= newxcircle;
-
-            newxcircle = radius - newxcircle;
-            return Mathf.Sqrt(newxcircle);
-        }
-        else
-        {
-            float newxcircle;
-            newxcircle = xoncircle - radiussqrt * 3;
-            newxcircle *= newxcircle;
-
-            newxcircle = radius - newxcircle;
-            return Mathf.Sqrt(newxcircle) * -1;
-        }
+        return  Mathf.Cos(time) * radius;
     }
 
     protected override float yMove(float time)
     {
-        yoncirlce = (yoncirlce + speed*time) % (radiussqrt * 4);
-
-        if(yoncirlce <= radiussqrt*2)
-        {
-            float newycircle;
-            newycircle = yoncirlce - radiussqrt;
-            newycircle *= newycircle;
-
-            newycircle = radius - newycircle;
-            return Mathf.Sqrt(newycircle);
-        }
-        else
-        {
-            float newycircle;
-            newycircle = yoncirlce - radiussqrt * 3;
-            newycircle *= newycircle;
-
-            newycircle = radius - newycircle;
-            return Mathf.Sqrt(newycircle)*-1;
-        }
+        return  Mathf.Sin(time) * radius;
     }
 
     protected override void movement()
     {
-        float x, y;
+        float x, y, time = Time.time*speed;
+        xCurr -= speed * Time.deltaTime / slowDown;
         //calculate movement in x and y. We multiple by lossycale to get accurate speeds
-        x = (xMove(Time.deltaTime) + currx*speed) * gameObject.transform.lossyScale.x;
-        y = (yMove(Time.deltaTime) + ystart) * gameObject.transform.lossyScale.y;
+        x = (xMove(time) + xCurr) * gameObject.transform.lossyScale.x;
+        y = (yMove(time) + ystart) * gameObject.transform.lossyScale.y;
         Vector2 movVec = new Vector2(x, y);
         Vector2 refVec = Vector2.zero;
         transform.localPosition = movVec;

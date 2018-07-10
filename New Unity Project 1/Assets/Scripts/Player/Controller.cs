@@ -26,7 +26,9 @@ public class Controller : MonoBehaviour {
         if(mvmntEnabled)
             moveHero(x, y);
         if (Input.GetKeyDown(KeyCode.KeypadPlus))
-            Time.timeScale = ++Time.timeScale;
+            Time.timeScale = Time.timeScale + 0.2f;
+        if (Input.GetKeyDown(KeyCode.KeypadMinus))
+            Time.timeScale = Time.timeScale - 0.2f;
 	}
     #endregion
 

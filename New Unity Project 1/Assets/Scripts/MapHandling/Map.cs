@@ -5,10 +5,10 @@ using UnityEngine;
 public class Map : MonoBehaviour {
     private GameObject spawner, parent;
     private List<GameObject> allSpawners;
-    //private readonly string[] objs = { "Sphr", "Cube", "Pyrd" };
-    private const float DEF_SPAWNTM = 80;
     private float spwnrTm, maxSpwnrTm, minspeed, maxspeed;
-    private const float incre_minspeed = 0.25f, incre_maxspeed = 0.5f;
+    private const float incre_minspeed = 0.25f, incre_maxspeed = 0.5f, DEF_SPAWNTM = 50,
+        decayLimit = 20.0f, decay = 0.02f;
+    private int powerupRate = 50; //repersented by the inverse of rate
     private int diff;
     public GameObject[] spawnPoints;
     
@@ -28,13 +28,15 @@ public class Map : MonoBehaviour {
     }
 	
 	// Every frame we count spwnrTm down. Once 0, we spawn a spawner
-	void Update () {
+	void FixedUpdate () {
         spwnrTm -= Time.deltaTime;
         if(spwnrTm <= 0)
         {
             spwnrTm = spawnSpawner(maxSpwnrTm);
             Debug.Log("<color=purple>Spawner Time set to " + spwnrTm + "</color>");
         }
+        if (allSpawners.Count < 1)
+            spwnrTm = spawnSpawner(maxSpwnrTm);
 	}//end Update
 
     //Chooses a random object (in ObjsType) and creates a spawner of it.
@@ -42,6 +44,8 @@ public class Map : MonoBehaviour {
     //Object, and the passed in value
     private float spawnSpawner(float timer)
     {
+        if (maxSpwnrTm > decayLimit)
+            maxSpwnrTm -= decay;
         int totalWeight = 0;
         //First, get the total weight of all objects
         foreach (ObjType element in System.Enum.GetValues(typeof(ObjType)))
@@ -57,12 +61,11 @@ public class Map : MonoBehaviour {
             //When total weigth <= totalweight + possible current obs weight, we have found our obs type to spawn
             if (select <= (wghtSoFar += Objs.getWeight(element)))
             {
+                Debug.Log("totalweight " + totalWeight);
                 //Set timer to be a function of maxSpawnTime/how likely obj was to spawn.
-                float divisor;
-                if((divisor = totalWeight - Objs.getWeight(element)) <= 0)
-                {
-                    divisor = 1;
-                }
+                float divisor = (Objs.getWeight(element) * Objs.getWeight(element));
+                divisor /= totalWeight;
+                Debug.Log("Divisor is now " + divisor);
                 timer = timer/divisor; 
                 Objs.changeWeights(element);
 
@@ -70,7 +73,10 @@ public class Map : MonoBehaviour {
                     + " spawner</color>");
 
                 GameObject spwnInst = Instantiate(spawner) as GameObject;
-                spwnInst.GetComponent<Spawner>().createSpawner(element.ToString(), diff, minspeed, maxspeed, spawnPoints);
+
+                spwnInst.GetComponent<Spawner>().createSpawner(element.ToString(), diff, minspeed, maxspeed, 
+                    powerupRate, spawnPoints);
+
                 minspeed += incre_minspeed;
                 maxspeed += incre_maxspeed;
                 //Set spawner's parent to the parent gameobject for scaleing reasons

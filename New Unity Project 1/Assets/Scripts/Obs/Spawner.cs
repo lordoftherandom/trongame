@@ -3,27 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour {
-    private const float DEF_SPWNTM = 6; // because 6 is a good number
-    private const int TOTAL_SPAWNS = 25;
+
+    #region Attributes
+    private const float DEF_SPWNTM = 7; // because 8 is a good number
+    private const int TOTAL_SPAWNS = 30;
+
     private float minspeed, maxspeed;
     private float spawnTime, diff, maxSpawnTime;
+
+    private GameObject obs;
     private GameObject[] spawnPnts;
-    private int objstilldeath;
+
+    public int objstilldeath, powerupChanceCurr;
+
+    public int powerupChance;
 	public static int totalLanes;
+
 	public List <GameObject> allCurrentObs;
+    private ObjType objType;
+    #endregion
 
-	private GameObject obs;
-
-
-	// Use this for initialization
-	void Start () {
+    #region Constructors
+    void Start () {
         allCurrentObs = new List<GameObject>();
         objstilldeath = TOTAL_SPAWNS;
 	}//end Start
 	
 	// Update is called once per frame
-	void Update () {
-		if (spawnTime <= 0)
+	void FixedUpdate () {
+		if (spawnTime <= 0 && objstilldeath > 0)
 			randomSpawn ();
 		spawnTime -= Time.deltaTime;
         //If we have spawned all the objects we can, we need to see
@@ -44,17 +52,21 @@ public class Spawner : MonoBehaviour {
 	}//end Update
 
     public void createSpawner(string obsType = "Cube", float strtDif = 1, float smspeed = 1, float bgspeed = 5, 
-        GameObject[] strtPos = null)
+        int pwrChance = 25, GameObject[] strtPos = null)
     {
-        obs = Objs.loadType(Objs.toObjType(obsType));
+        objType = Objs.toObjType(obsType);
+        obs = Objs.loadType(objType);
         spawnPnts = strtPos;
         diff = strtDif;
         totalLanes = spawnPnts.Length;
         maxSpawnTime = DEF_SPWNTM / diff;
         minspeed = smspeed;
         maxspeed = bgspeed;
+        powerupChance = powerupChanceCurr = pwrChance;
     }
+    #endregion
 
+    #region Methods
     //Allows us to incremente diff over time, or to change diff
     //if user finds game too hard
     public void chngDiff(float diffChng, bool setValue = false)
@@ -66,7 +78,7 @@ public class Spawner : MonoBehaviour {
         maxSpawnTime = DEF_SPWNTM / diff;
     }//end chngDiff
 
-    //Called by the DestroyObjs script to remove the collided with ovject
+    //Called by the DestroyObjs script to remove the collided with object
     public void Remove(GameObject obs)
     {
         allCurrentObs.Remove(obs);
@@ -100,19 +112,45 @@ public class Spawner : MonoBehaviour {
 	{
         objstilldeath--;
         int spawnPoint = Random.Range(0, spawnPnts.Length);
+        string objName;
+
         GameObject thisInstince = Instantiate(obs, spawnPnts[spawnPoint].transform) as GameObject;
+        Obstacles objScript = thisInstince.GetComponent<Obstacles>();
         
         //set parent and scale for scaling purposes
         thisInstince.transform.parent = gameObject.transform.parent;
         thisInstince.transform.localScale = new Vector3(1, 1, 1);
 
-        thisInstince.transform.position = thisInstince.transform.position + new Vector3(0, -0.25f);
+        thisInstince.transform.position += new Vector3(0, -0.25f);
 
-	    thisInstince.GetComponent<Obstacles>().setValues(spawnPoint, minspeed, maxspeed, this.gameObject, true);
-        thisInstince.GetComponent<Obstacles>().spawner = this.gameObject;
+        if (PowerupSpawn())
+        {
+            thisInstince.tag = "Powerup";
+            objScript.isPowerup = true;
+            objName = "Powerup";
+        }
+        else
+            objName = objType.ToString();
+
+	    objScript.setValues(spawnPoint, minspeed, maxspeed, this.gameObject, true);
+        objScript.spawner = this;
         allCurrentObs.Add(thisInstince);
 
-        //we use five here because that is currently the max speed. NO MAGIC NUMBERS
-		spawnTime = (maxSpawnTime/5)*(thisInstince.GetComponent<Obstacles>().getSpeed());
+        thisInstince.name = objName + objScript.objID;
+
+
+        spawnTime = (maxSpawnTime/maxspeed)*(objScript.getSpeed());
 	}//end randomSpawn
+
+    private bool PowerupSpawn()
+    {
+        if (Random.Range(0, powerupChance + 1) >= powerupChanceCurr--)
+        {
+            powerupChanceCurr = powerupChance;
+            return true;
+        }
+        else
+            return false;
+    }
+    #endregion
 }
