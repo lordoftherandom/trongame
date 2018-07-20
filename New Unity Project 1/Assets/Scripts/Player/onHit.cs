@@ -36,13 +36,35 @@ public class onHit : MonoBehaviour {
                 StartCoroutine(noHurtMe());
             }
 		}
-        else if(other.gameObject.tag == "Powerup")
+        else if(other.gameObject.tag == "Points")
         {
             if(!collHappened)
             {
                 //do effect of powerup, for now, points!
                 Obstacles objScript = other.GetComponent<Obstacles>();
-                HUD.ScoreIncrease(objScript.scorefactor);
+                HUD.ScoreIncrease(objScript.scorefactor*5);
+                objScript.destroy();
+            }
+        }
+        else if(other.gameObject.tag == "Health")
+        {
+            if(!collHappened)
+            {
+                Obstacles objScript = other.GetComponent<Obstacles>();
+                int healthLeft = HUD.HPGained();
+                if(healthLeft > 0)
+                    HUD.ScoreIncrease(objScript.scorefactor * 2 * healthLeft);
+                objScript.destroy();
+            }
+        }
+        else if (other.gameObject.tag == "Bomb")
+        {
+            if (!collHappened)
+            {
+                Obstacles objScript = other.GetComponent<Obstacles>();
+                int bombLeft = HUD.BombGained();
+                if(bombLeft > 0)
+                    HUD.ScoreIncrease(objScript.scorefactor * 2 * bombLeft);
                 objScript.destroy();
             }
         }
@@ -58,13 +80,35 @@ public class onHit : MonoBehaviour {
                 StartCoroutine(noHurtMe());
             }
         }
-        else if (other.gameObject.tag == "Powerup")
+        else if (other.gameObject.tag == "Points")
         {
             if (!collHappened)
             {
                 //do effect of powerup, for now, points!
                 Obstacles objScript = other.GetComponent<Obstacles>();
-                HUD.ScoreIncrease(objScript.scorefactor);
+                HUD.ScoreIncrease(objScript.scorefactor * 5);
+                objScript.destroy();
+            }
+        }
+        else if (other.gameObject.tag == "Health")
+        {
+            if (!collHappened)
+            {
+                Obstacles objScript = other.GetComponent<Obstacles>();
+                int healthLeft = HUD.HPGained();
+                if (healthLeft > 0)
+                    HUD.ScoreIncrease(objScript.scorefactor * 2 * healthLeft);
+                objScript.destroy();
+            }
+        }
+        else if (other.gameObject.tag == "Bomb")
+        {
+            if (!collHappened)
+            {
+                Obstacles objScript = other.GetComponent<Obstacles>();
+                int bombLeft = HUD.BombGained();
+                if (bombLeft > 0)
+                    HUD.ScoreIncrease(objScript.scorefactor * 2 * bombLeft);
                 objScript.destroy();
             }
         }

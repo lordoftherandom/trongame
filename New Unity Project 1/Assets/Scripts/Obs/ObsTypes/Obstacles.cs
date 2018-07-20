@@ -108,7 +108,16 @@ public abstract class Obstacles : MonoBehaviour {
         if (!isPowerup)
             newcolor = Colors.MakeColor(speed);
         else
-            newcolor = Color.white;
+        {
+            string powerUpType = tag;
+            if (tag == "Health")
+                newcolor = Color.green;
+            else if (tag == "Points")
+                newcolor = Color.yellow;
+            else
+                newcolor = Color.grey;
+        }
+            
         GetComponentInChildren<Renderer>().material.color = newcolor;
         GetComponentInChildren<Light>().color = newcolor;
     }

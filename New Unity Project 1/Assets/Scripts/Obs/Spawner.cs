@@ -125,9 +125,17 @@ public class Spawner : MonoBehaviour {
 
         if (PowerupSpawn())
         {
-            thisInstince.tag = "Powerup";
+            int powerUpType = Random.Range(0, 3);
+
+            if (powerUpType == 2)
+                thisInstince.tag = "Points";
+            else if (powerUpType == 1)
+                thisInstince.tag = "Bomb";
+            else
+                thisInstince.tag = "Health";
+
             objScript.isPowerup = true;
-            objName = "Powerup";
+            objName = thisInstince.tag;
         }
         else
             objName = objType.ToString();

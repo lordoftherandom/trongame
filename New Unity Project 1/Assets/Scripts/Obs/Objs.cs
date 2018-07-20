@@ -57,7 +57,6 @@ public static class Objs {
     public static GameObject loadType(ObjType obj)
     {
         GameObject obs;
-        Debug.Log("Loading object " + obj.ToString());
         if ((obs = Resources.Load(obj.ToString(), typeof(GameObject)) as GameObject) == null)
         {//If the resource, for some reason, could not be loaded, load a cube instead
             Debug.Log("<color=yellow>Object could not be loaded</color>");

@@ -10,13 +10,14 @@ public class DestroyObjs : MonoBehaviour {
     //Where points should be added
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Obstacle")
+        string objTag = other.gameObject.tag;
+        if (objTag == "Obstacle")
         {
             Obstacles obsscript = other.gameObject.GetComponent<Obstacles>();
             HUD.GetComponent<HUDCommands>().ScoreIncrease(obsscript.scorefactor);
             obsscript.destroy();
         }
-        else if(other.gameObject.tag == "Powerup")
+        else if(objTag == "Health" || objTag == "Bomb" || objTag == "Points")
         {
             other.gameObject.GetComponent<Obstacles>().destroy();
         }

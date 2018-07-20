@@ -7,13 +7,18 @@ public class Controller : MonoBehaviour {
     #region Members
 	public float speed; //The multiplier of speed for the hero
     public bool mvmntEnabled;
+    OnBomb onBomb;
 
     [SerializeField]
-    private const float smoothTime = 0.04f;//0.02 per frame
+    private const float smoothTime = 0.04f, //0.02 per frame
+        MAX_BOMBDELAY = 0.3f;
+    [SerializeField]
+    private float bombDelay;
     #endregion
 
     #region Constructors
     void Start () {
+        onBomb = GetComponent<OnBomb>();
 		if(gameObject.GetComponent<Rigidbody2D>()==null)
 			gameObject.AddComponent<Rigidbody2D> ();
         mvmntEnabled = true;
@@ -21,14 +26,23 @@ public class Controller : MonoBehaviour {
 	
 	
 	void FixedUpdate () {
+        bombDelay -= 0.01f;
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
+
         if(mvmntEnabled)
             moveHero(x, y);
         if (Input.GetKeyDown(KeyCode.KeypadPlus))
             Time.timeScale = Time.timeScale + 0.2f;
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
             Time.timeScale = Time.timeScale - 0.2f;
+        if (Input.GetAxis("Fire1") != 0 && bombDelay < 0)
+        {
+            Debug.Log("Key Pressed");
+            onBomb.SetOffBomb();
+            bombDelay = MAX_BOMBDELAY;
+        }
+
 	}
     #endregion
 
