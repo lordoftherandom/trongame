@@ -20,6 +20,8 @@ public abstract class Obstacles : MonoBehaviour {
     public float MAX_HEIGHT, speed;
 	protected GameObject parent;
     public Spawner spawner;
+
+
     public float scorefactor
     {
         protected set;
@@ -27,7 +29,6 @@ public abstract class Obstacles : MonoBehaviour {
     }
 
 	protected virtual void Start () {
-
 	}//end start
 
 	
@@ -64,8 +65,15 @@ public abstract class Obstacles : MonoBehaviour {
             setRotation();
         SetColor();
         SetHeight(spawnpoint);
-
     }//end setValues
+
+    public void setValues()
+    {
+        rotate = true;
+        setSpeed(1, 5);
+        setRotation();
+        SetColor();
+    }
 
     private void setSpeed(float minSp, float maxSp)
     {

@@ -16,6 +16,7 @@ public class Sphere : Obstacles
     protected override void SetHeight(float spawnpoint)
     {
         MAX_HEIGHT = spawnpoint;
+
         //values are hardcoded; should be changed
         if (spawnpoint < 1 || spawnpoint > 3)
         {

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Controller : MonoBehaviour {
 
     #region Members
-	public float speed; //The multiplier of speed for the hero
+	public float speed,xSize, ySize; 
     public bool mvmntEnabled;
     OnBomb onBomb;
 
@@ -22,6 +22,9 @@ public class Controller : MonoBehaviour {
 		if(gameObject.GetComponent<Rigidbody2D>()==null)
 			gameObject.AddComponent<Rigidbody2D> ();
         mvmntEnabled = true;
+        CapsuleCollider2D sizer = GetComponent<CapsuleCollider2D>();
+        xSize = sizer.size.x/2;
+        ySize = sizer.size.y * 0.9f/2;
 	}
 	
 	
@@ -62,7 +65,6 @@ public class Controller : MonoBehaviour {
     void smoothMove(float x, float y)
     {
         float xDir = x * speed, yDir = y * speed;
-
         Vector2 velocity = Vector2.zero;
         Vector2 strtPos = transform.position;
         Vector2 trgPos = new Vector2(xDir , yDir) + strtPos;
@@ -88,9 +90,9 @@ public class Controller : MonoBehaviour {
 
         float length;
         if (Mathf.Abs(dir.x) > 0)
-            length = 0.45f;
+            length = xSize;
         else
-            length = 0.90f;
+            length = ySize;
         Debug.DrawRay((Vector2)transform.position, dir*length, Color.red, 1, false);
         return Physics2D.Raycast((Vector2)transform.position, dir, length);
     }

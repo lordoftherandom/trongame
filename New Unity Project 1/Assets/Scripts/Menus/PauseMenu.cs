@@ -1,15 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class PauseMenu : MonoBehaviour {
 	public Canvas pauseMenu;
 	private GameObject map;
+    public Text restart, quit, mainMenu;
 	// Use this for initialization
 	void Start () {
 		pauseMenu.GetComponent<Canvas> ().enabled = false;
 		map = GameObject.FindGameObjectWithTag ("Parent");
+
+        restart.text = Strings.restart;
+        quit.text = Strings.quit;
+        mainMenu.text = Strings.mainmenu;
+
 	}
 	
 	// Update is called once per frame
@@ -34,7 +39,7 @@ public class PauseMenu : MonoBehaviour {
 
 	public void Quit()
 	{
-		
+		//reduent? replace with Options Menu?
 	}
 
 	public void MainMenu()

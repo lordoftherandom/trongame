@@ -5,12 +5,14 @@ using UnityEngine.UI;
 using UnityEngine;
 
 public class MainMenu : MonoBehaviour {
-    public Text newgame, options, quit;
+    public Text newgame, options, quit, instructions;
+    public GameObject tutorial;
 	// Use this for initialization
 	void Start () {
         newgame.text = Strings.newgame;
         options.text = Strings.options;
         quit.text = Strings.quit;
+        instructions.text = Strings.instructions;
 	}
 	
 	// Update is called once per frame
@@ -20,15 +22,22 @@ public class MainMenu : MonoBehaviour {
 
 	public void NewGame()
     { 
-		SceneManager.LoadScene ("Testing");
+		SceneManager.LoadScene ("Level_0");
 	}
 
 	public void Options()
 	{
 	}
 
+    public void Instructions()
+    {
+        tutorial.SetActive(true);
+        this.gameObject.SetActive(false);
+    }
+
 	public void Quit()
 	{
+        Application.Quit();
 	}
 
 }

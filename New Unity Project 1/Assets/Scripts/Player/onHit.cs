@@ -116,7 +116,7 @@ public class onHit : MonoBehaviour {
 
     IEnumerator noHurtMe()
 	{
-        if(!HUD.HeroHit())
+        if(HUD != null && !HUD.HeroHit())
             GameOver();
         collTime = invicTime;
         collHappened = true;

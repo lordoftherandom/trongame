@@ -1,21 +1,22 @@
 fileFormatVersion: 2
-guid: ef2b68b899a924d4b87a681d1ef721b0
-timeCreated: 1503685843
-licenseType: Free
+guid: 96a62f8ca26536043a9fb67f38466ec1
 TrueTypeFontImporter:
+  externalObjects: {}
   serializedVersion: 4
   fontSize: 16
   forceTextureCase: -2
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Good Times
+  fontName: Exo 2
   fontNames:
-  - Good Times
+  - Exo 2
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
   userData: 
   assetBundleName: 
   assetBundleVariant: 
