@@ -46,4 +46,23 @@ public static class Colors {
         return new Color(red, 0, blue, 1);
     }
 
+    public static Color InverseColor(Color color)
+    {
+        float[] values = new float[3];
+
+        values[0] = color.r - 1;
+        values[1] = color.g - 1;
+        values[2] = color.b - 1;
+
+        for (int i = 0; i < 3; i++)
+        {
+            float newVal = Mathf.Abs(values[i]);
+            if (newVal > 1)
+                newVal -= 1;
+            values[i] = newVal;
+        }
+        color = new Color(values[0], values[1], values[2]);
+        return color;
+    }
+
 }

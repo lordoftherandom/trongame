@@ -30,7 +30,7 @@ public class HUDCommands : MonoBehaviour {
 
     public int BombGained(int bomb = 1)
     {
-        for(int i = 0; i < bombs.Length-1 && bomb > 0; i++)
+        for(int i = 0; i < bombs.Length && bomb > 0; i++)
         {
             if(bombs[i].color.a == 0 )
             {
@@ -56,7 +56,7 @@ public class HUDCommands : MonoBehaviour {
 
     public int HPGained(int HP = 1)
     {
-        for (int i = 0; i < hitpoints.Length - 1 && HP > 0; i++)
+        for (int i = 0; i < hitpoints.Length && HP > 0; i++)
         {
             if (hitpoints[i].sprite == unhealthy)
             {
