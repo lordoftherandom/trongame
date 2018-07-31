@@ -29,7 +29,7 @@ public class GameOverScreen : MonoBehaviour {
 
     public void Restart()
     {
-        SceneManager.LoadScene("Testing");
+        SceneManager.LoadScene("Level_0");
     }
     public void Exit()
     {
