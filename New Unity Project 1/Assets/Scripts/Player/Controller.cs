@@ -10,7 +10,7 @@ public class Controller : MonoBehaviour {
     OnBomb onBomb;
 
     [SerializeField]
-    private const float smoothTime = 0.04f, //0.02 per frame
+    private const float smoothTime = 0.03f, //0.02 per frame
         MAX_BOMBDELAY = 0.3f;
     [SerializeField]
     private float bombDelay;
@@ -24,7 +24,7 @@ public class Controller : MonoBehaviour {
         mvmntEnabled = true;
         CapsuleCollider2D sizer = GetComponent<CapsuleCollider2D>();
         xSize = sizer.size.x/2;
-        ySize = sizer.size.y * 0.9f/2;
+        ySize = sizer.size.y/2;
 	}
 	
 	
@@ -35,10 +35,6 @@ public class Controller : MonoBehaviour {
 
         if(mvmntEnabled)
             moveHero(x, y);
-        if (Input.GetKeyDown(KeyCode.KeypadPlus))
-            Time.timeScale = Time.timeScale + 0.2f;
-        if (Input.GetKeyDown(KeyCode.KeypadMinus))
-            Time.timeScale = Time.timeScale - 0.2f;
         if (Input.GetAxis("Fire1") != 0 && bombDelay < 0)
         {
             Debug.Log("Key Pressed");

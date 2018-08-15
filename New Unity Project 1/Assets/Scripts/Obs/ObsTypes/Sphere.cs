@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class Sphere : Obstacles
 {
+    private static AudioClip sound;
     private float radius, ystart, xCurr,slowDown = 1.25f;
     // Use this for initialization
     protected override void Start()
     {
         base.Start();
         scorefactor = 2.0f;
+        objType = ObjType.Sphr;
+        if (sound == null)
+            sound = Objs.LoadObjSound(objType);
     }
     
     //Because of circle movements, we must ensure spot has 2 lanes of space minimum
@@ -23,13 +27,11 @@ public class Sphere : Obstacles
             radius = 0.25f;
             if (spawnpoint == 0)
             {
-                Debug.Log("Coming in too low. Adjusting");
                 gameObject.transform.localPosition = 
                     new Vector2(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y + 0.5f);
             }
             else
             {
-                Debug.Log("Coming in too high. Adjusting");
                 gameObject.transform.localPosition = 
                     new Vector2( gameObject.transform.localPosition.x, gameObject.transform.localPosition.y - 0.5f);
             }
@@ -62,6 +64,17 @@ public class Sphere : Obstacles
         Vector2 movVec = new Vector2(x, y);
         Vector2 refVec = Vector2.zero;
         transform.localPosition = movVec;
+    }
+
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        Debug.Log("It detects this");
+        if (collision.gameObject.tag == "RightWall")
+        {
+            Debug.Log("So does it detect this?");
+            SoundHandler.QueueSound(sound);
+        }
     }
 
 }

@@ -64,4 +64,14 @@ public static class Objs {
         }
         return obs;
     }//end loadType
+
+    public static AudioClip LoadObjSound(ObjType obj)
+    {
+        AudioClip audioClip;
+        if((audioClip = Resources.Load(obj.ToString(), typeof(AudioClip)) as AudioClip) == null)
+        {
+            Debug.Log("Whoops, sounds not working");
+        }
+        return audioClip;
+    }
 }

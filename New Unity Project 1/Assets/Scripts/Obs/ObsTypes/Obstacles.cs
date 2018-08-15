@@ -14,6 +14,7 @@ public abstract class Obstacles : MonoBehaviour {
         protected set;
         get;
     }
+    protected ObjType objType;
 	private bool rotate;
     public bool isPowerup;
 	private Vector3 rotateVec;

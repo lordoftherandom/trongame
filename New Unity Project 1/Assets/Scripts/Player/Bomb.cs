@@ -8,7 +8,7 @@ public class Bomb : MonoBehaviour {
     SpriteRenderer sprite;
     Color initColor, altColor;
     [SerializeField]
-    const float SCALE_RATE = 0.8f, MAX_SCALE = 60.0f, BOMB_FLASH = 0.05f;
+    const float SCALE_RATE = 0.8f, MAX_SCALE = 60.0f, BOMB_FLASH = 0.1f;
 
     private float lastFlash = 0;
 	// Use this for initialization

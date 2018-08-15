@@ -7,7 +7,7 @@ public class Map : MonoBehaviour {
     private List<GameObject> allSpawners;
     private float spwnrTm, maxSpwnrTm, minspeed, maxspeed;
     private const float incre_minspeed = 0.25f, incre_maxspeed = 0.5f, DEF_SPAWNTM = 50,
-        decayLimit = 20.0f, decay = 0.02f;
+        decayLimit = 20.0f, decay = 0.02f, MAX_SPAWNTM = 75;
     private int powerupRate = 50; //repersented by the inverse of rate
     private int diff;
     public GameObject[] spawnPoints;
@@ -86,6 +86,8 @@ public class Map : MonoBehaviour {
                 break;
             }
         }
+        if (timer > MAX_SPAWNTM)
+            timer = MAX_SPAWNTM;
         return timer;
     }//end spawnSpawner
 
