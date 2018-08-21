@@ -9,7 +9,7 @@ public enum ObjType
 
 public static class Objs {
 
-    private static int[] weights = { 5, 2, 3 };
+    private static int[] weights = { 10, 2, 3 };
 
     public static ObjType toObjType(string obj)
     {
@@ -34,7 +34,7 @@ public static class Objs {
 
     public static int GetTotalObjs()
     {
-        return weights.Length;
+		return System.Enum.GetValues(typeof(ObjType)).Length;
     }
 
     //Should be called when a spawner of any type is created
@@ -51,8 +51,6 @@ public static class Objs {
         weights[minPos]++;
         weights[(int)obj]--;
     }//end changeWeights
-
-    
 
     public static GameObject loadType(ObjType obj)
     {

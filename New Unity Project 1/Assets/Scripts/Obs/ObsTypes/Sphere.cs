@@ -67,10 +67,8 @@ public class Sphere : Obstacles
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("It detects this");
         if (collision.gameObject.tag == "RightWall")
         {
-            Debug.Log("So does it detect this?");
             SoundHandler.QueueSound(objType);
         }
     }

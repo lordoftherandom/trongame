@@ -37,7 +37,6 @@ public class Bomb : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Collided with" + gameObject.name);
         string tagOfObs = other.gameObject.tag;
         if (tagOfObs == "Points" || tagOfObs == "Health" || tagOfObs == "Obstacle" || tagOfObs == "Bomb")
         {

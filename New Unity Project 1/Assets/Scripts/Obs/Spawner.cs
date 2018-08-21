@@ -41,10 +41,7 @@ public class Spawner : MonoBehaviour {
             //If spawners are moving across the screen, don't delete.
             //Spawner is still needed for pauseing functions
             if (allCurrentObs.Count <= 0)
-            {
-                GetComponentInParent<Map>().RemoveSpawner(this.gameObject);
-                Destroy(this.gameObject);
-            }
+				DestroySpawner();
             //Reset the spawntime to max so another object is not spawned
             else
                 spawnTime = maxSpawnTime;
@@ -63,6 +60,7 @@ public class Spawner : MonoBehaviour {
         minspeed = smspeed;
         maxspeed = bgspeed;
         powerupChance = powerupChanceCurr = pwrChance;
+		SoundHandler.BeatHandler((int)objType);
     }
     #endregion
 
@@ -82,8 +80,8 @@ public class Spawner : MonoBehaviour {
     public void Remove(GameObject obs)
     {
         allCurrentObs.Remove(obs);
+		spawnTime = 0.0f;
         Destroy(obs);
-        spawnTime = 0.0f;
     }//end Remove
 
     public void HideObs()
@@ -160,5 +158,12 @@ public class Spawner : MonoBehaviour {
         else
             return false;
     }
+
+	private void DestroySpawner()
+	{
+		SoundHandler.BeatHandler((int)objType, false);
+		GetComponentInParent<Map>().RemoveSpawner(this.gameObject);
+		Destroy(this.gameObject);
+	}
     #endregion
 }

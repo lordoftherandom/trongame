@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundHandler : MonoBehaviour {
-
-    private static bool soundPlaying = false, playSong = true;
+	private const float INITAL_BEATDUR = 4;
+    private static bool soundPlaying = false, playSong = true, beatPlaying = false;
     private static SoundHandler instance;
     private static List<AudioClip>[] soundsToPlay;
     private static List<AudioClip> soundQueue;
-    private static int[] chordPosition = { 0, 0, 0 };
+	private static int[] chordPosition;
+	private static float[] beatTime;
+	private static AudioSource[] beatSounds;
     public static AudioClip mainSong;
     public static AudioSource main, secondary, secondary2;
 
@@ -19,6 +21,9 @@ public class SoundHandler : MonoBehaviour {
             instance = this;
         else
             Destroy(this);
+		chordPosition = new int[Objs.GetTotalObjs()];
+		for (int i = 0; i < chordPosition.Length; i++)
+			chordPosition[i] = 0;
         LoadSounds();
     }
 
@@ -29,19 +34,44 @@ public class SoundHandler : MonoBehaviour {
         main = sources[0];
         secondary = sources[1];
         secondary2 = sources[2];
-        soundsToPlay = new List<AudioClip>[3];
-        for (int i = 0; i < 3; i++)
+        soundsToPlay = new List<AudioClip>[Objs.GetTotalObjs()];
+        for (int i = 0; i < Objs.GetTotalObjs(); i++)
         {
             soundsToPlay[i] = new List<AudioClip>();
-            for (int j = 0; j < 3; j++)
-            {
-                string soundPath = ((ObjType)i).ToString() + "_" + j;
+			bool noMoreVal = false;
+			int count = 0;
+			while(!noMoreVal)
+			{ 
+                string soundPath = ((ObjType)i).ToString() + "_" + count++;
                 AudioClip clip;
-                if ((clip = Resources.Load(soundPath, typeof(AudioClip)) as AudioClip) == null)
-                    Debug.Log("Whoops, sound not working");
-                soundsToPlay[i].Add(clip);
+				if ((clip = Resources.Load(soundPath, typeof(AudioClip)) as AudioClip) == null)
+				{
+					noMoreVal = true;
+					break;
+				}
+				else
+					soundsToPlay[i].Add(clip);
             }
         }
+
+		//Initalize beat sounds. beats are introduced as spawners are added
+		//There should always be ObjType + 1 beat sounds; 1 for each spawner, and
+		//one that plays in the background at all times
+		beatSounds = new AudioSource[Objs.GetTotalObjs()+1];
+		beatTime = new float [beatSounds.Length];
+		for (int i = 0; i < beatSounds.Length; i++)
+		{
+			if((beatSounds[i] = instance.gameObject.AddComponent<AudioSource>() as AudioSource) == null)
+				Debug.Log("Error Adding AudioSource Component");
+			string soundPath = ("spwn_" + i);
+			AudioClip clip;
+			if ((clip = Resources.Load(soundPath, typeof(AudioClip)) as AudioClip) == null)
+				Debug.Log("Oh no an error!");
+			else
+				beatSounds[i].clip = clip;
+			beatTime[i] = 0;
+		}
+		StartBeats();
     }
 
     public static void MainSong()
@@ -55,7 +85,6 @@ public class SoundHandler : MonoBehaviour {
     public static void QueueSound(ObjType obj)
     {
         int currChordPos = chordPosition[(int)obj]++%3;
-        chordPosition[(int)obj] = currChordPos;
 
         soundQueue.Add(soundsToPlay[(int)obj][currChordPos]);
         if (!soundPlaying)
@@ -66,9 +95,8 @@ public class SoundHandler : MonoBehaviour {
     {
         while (soundQueue.Count > 0)
         {
-            Debug.Log("About to sound");
             if (secondary.isPlaying)
-                yield return new WaitForSeconds(secondary.clip.length / 2.0f);
+                yield return new WaitForSeconds(secondary.clip.length / 1.25f);
             if (secondary.isPlaying)
             {
                 secondary2.clip = soundQueue[0];
@@ -83,5 +111,63 @@ public class SoundHandler : MonoBehaviour {
             }
         }
     }
+
+	//Adds/Removes a beat from the handler
+	public static void BeatHandler(int obj, bool toAdd = true)
+	{
+		if (toAdd)
+			if (beatTime[obj] > 0)
+				beatTime[obj] /= 2;
+			else
+				beatTime[obj] = INITAL_BEATDUR;
+		else
+			beatTime[obj] *= 2;
+		//If there are no longer any spawners for a given obj...
+		if (beatTime[obj] > INITAL_BEATDUR)
+			beatTime[obj] = 0;
+		//But if there are so many objects that the beat would become too fast...
+		else if (beatTime[obj] < beatSounds[obj].clip.length)
+			beatTime[obj] = beatSounds[obj].clip.length; //THIS WILL CAUSE ERRORS WHERE SPAWNER EXSISTS, BUT STOPS PLAYING SOUND
+	}
+	
+	//Starts the beats that can play at the start of the game.
+	//Could possible be optamized by only starting IEnumerator when spawner spawns.
+	private static void StartBeats()
+	{
+		for(int i = 0; i < beatSounds.Length; i++)
+		{
+			instance.StartCoroutine(PlayBeat(i));
+		}
+	}
+
+	private static IEnumerator PlayBeat(int beat)
+	{
+		//Start a small offset for each beat except last beat so they don't overlap
+		if (beat < beatSounds.Length - 1)
+			yield return new WaitForSeconds(beat/INITAL_BEATDUR);
+		//used to determine how much extra time has been used to wait for things to play
+		float beatTimeOffset;
+		while(true)
+		{
+			beatTimeOffset = 0;
+			//Wait for the object spawner to spawn. Only start beat at the begining of a
+			//"beat" period
+			while(beatTime[beat] == 0)
+				yield return new WaitForSeconds(INITAL_BEATDUR);
+			while (beatPlaying)
+			{
+				beatTimeOffset += beatSounds[beat].clip.length;
+				yield return new WaitForSeconds(beatSounds[beat].clip.length);
+			}
+			//Hey look! A critical section!
+			beatPlaying = true;
+			beatSounds[beat].Play();
+			yield return new WaitForSeconds(beatSounds[beat].clip.length);
+			beatTimeOffset += beatSounds[beat].clip.length;
+			beatPlaying = false;
+
+			yield return new WaitForSeconds(beatTime[beat] - beatTimeOffset);
+		}
+	}
 
 }

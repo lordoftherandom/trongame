@@ -18,7 +18,6 @@ public class OnBomb : MonoBehaviour {
     {
         if (HUD.BombUsed())
         {
-            Debug.Log("Spawning Bomb");
             GameObject bomb = Instantiate((GameObject)Resources.Load("Bomb"), gameObject.transform.parent);
             bomb.GetComponent<Bomb>().HUD = HUD;
             bomb.transform.localPosition = transform.localPosition;

@@ -7,7 +7,7 @@ public class Map : MonoBehaviour {
     private List<GameObject> allSpawners;
     private float spwnrTm, maxSpwnrTm, minspeed, maxspeed;
     private const float incre_minspeed = 0.25f, incre_maxspeed = 0.5f, DEF_SPAWNTM = 50,
-        decayLimit = 20.0f, decay = 0.02f, MAX_SPAWNTM = 75;
+        decayLimit = 10.0f, decay = 0.2f, MAX_SPAWNTM = 60;
     private int powerupRate = 50; //repersented by the inverse of rate
     private int diff;
     public GameObject[] spawnPoints;
@@ -61,12 +61,8 @@ public class Map : MonoBehaviour {
             //When total weigth <= totalweight + possible current obs weight, we have found our obs type to spawn
             if (select <= (wghtSoFar += Objs.getWeight(element)))
             {
-                Debug.Log("totalweight " + totalWeight);
-                //Set timer to be a function of maxSpawnTime/how likely obj was to spawn.
-                float divisor = (Objs.getWeight(element) * Objs.getWeight(element));
-                divisor /= totalWeight;
-                Debug.Log("Divisor is now " + divisor);
-                timer = timer/divisor; 
+
+                timer = timer/((Objs.GetTotalObjs() - (int)element +1)); 
                 Objs.changeWeights(element);
 
                 Debug.Log("<color=green>We are adding " + element.ToString()
@@ -86,8 +82,10 @@ public class Map : MonoBehaviour {
                 break;
             }
         }
-        if (timer > MAX_SPAWNTM)
-            timer = MAX_SPAWNTM;
+		if (timer > MAX_SPAWNTM)
+			timer = MAX_SPAWNTM;
+		else if (timer < decayLimit)
+			timer = decayLimit;
         return timer;
     }//end spawnSpawner
 
