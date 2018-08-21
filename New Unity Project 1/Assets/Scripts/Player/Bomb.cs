@@ -31,7 +31,7 @@ public class Bomb : MonoBehaviour {
         else
         {
             sprite.enabled = false;
-            Destroy(this);
+            Destroy(this.gameObject);
         }
 	}
 

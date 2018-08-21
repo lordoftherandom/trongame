@@ -12,8 +12,6 @@ public class Sphere : Obstacles
         base.Start();
         scorefactor = 2.0f;
         objType = ObjType.Sphr;
-        if (sound == null)
-            sound = Objs.LoadObjSound(objType);
     }
     
     //Because of circle movements, we must ensure spot has 2 lanes of space minimum
@@ -67,13 +65,13 @@ public class Sphere : Obstacles
     }
 
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("It detects this");
         if (collision.gameObject.tag == "RightWall")
         {
             Debug.Log("So does it detect this?");
-            SoundHandler.QueueSound(sound);
+            SoundHandler.QueueSound(objType);
         }
     }
 

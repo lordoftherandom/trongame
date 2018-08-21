@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class Cube : Obstacles
 {
-    static AudioClip sound;
-
     protected override void Start()
     {
         base.Start();
         scorefactor = 1f;
         objType = ObjType.Cube;
-        if (sound == null)
-            sound = Objs.LoadObjSound(objType);
     }
 
     protected override void SetHeight(float spawnpoint)
@@ -40,13 +36,13 @@ public class Cube : Obstacles
         transform.localPosition = Vector2.SmoothDamp(transform.localPosition, movVec, ref refVec, 0.0f, 1000, Time.deltaTime);
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("It detects this");
         if (collision.gameObject.tag == "RightWall")
         {
             Debug.Log("So does it detect this?");
-            SoundHandler.QueueSound(sound);
+            SoundHandler.QueueSound(objType);
         }
     }
 }

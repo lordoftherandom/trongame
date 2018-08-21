@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundHandler : MonoBehaviour {
+
     private static bool soundPlaying = false, playSong = true;
     private static SoundHandler instance;
-    static List<AudioClip> soundsToPlay;
+    private static List<AudioClip>[] soundsToPlay;
+    private static List<AudioClip> soundQueue;
+    private static int[] chordPosition = { 0, 0, 0 };
     public static AudioClip mainSong;
-    public static AudioSource main, secondary;
+    public static AudioSource main, secondary, secondary2;
 
     private void Awake()
     {
@@ -16,11 +19,29 @@ public class SoundHandler : MonoBehaviour {
             instance = this;
         else
             Destroy(this);
+        LoadSounds();
+    }
 
+    private static void LoadSounds()
+    {
+        soundQueue = new List<AudioClip>();
         AudioSource[] sources = instance.GetComponents<AudioSource>();
         main = sources[0];
         secondary = sources[1];
-        soundsToPlay = new List<AudioClip>();
+        secondary2 = sources[2];
+        soundsToPlay = new List<AudioClip>[3];
+        for (int i = 0; i < 3; i++)
+        {
+            soundsToPlay[i] = new List<AudioClip>();
+            for (int j = 0; j < 3; j++)
+            {
+                string soundPath = ((ObjType)i).ToString() + "_" + j;
+                AudioClip clip;
+                if ((clip = Resources.Load(soundPath, typeof(AudioClip)) as AudioClip) == null)
+                    Debug.Log("Whoops, sound not working");
+                soundsToPlay[i].Add(clip);
+            }
+        }
     }
 
     public static void MainSong()
@@ -31,26 +52,35 @@ public class SoundHandler : MonoBehaviour {
                 main.Play(0);
     }
 
-    public static void QueueSound(AudioClip sound)
+    public static void QueueSound(ObjType obj)
     {
-        if (soundsToPlay == null)
-            soundsToPlay = new List<AudioClip>();
+        int currChordPos = chordPosition[(int)obj]++%3;
+        chordPosition[(int)obj] = currChordPos;
 
-        soundsToPlay.Add(sound);
+        soundQueue.Add(soundsToPlay[(int)obj][currChordPos]);
         if (!soundPlaying)
             instance.StartCoroutine(PlaySound());
     }
 
     private static IEnumerator PlaySound()
     {
-        while (soundsToPlay.Count > 0)
+        while (soundQueue.Count > 0)
         {
             Debug.Log("About to sound");
-            if(secondary.isPlaying)
-                yield return new WaitForSeconds(secondary.clip.length/1.25f);
-            secondary.clip = soundsToPlay[0];
-            secondary.Play();
-            soundsToPlay.RemoveAt(0);
+            if (secondary.isPlaying)
+                yield return new WaitForSeconds(secondary.clip.length / 2.0f);
+            if (secondary.isPlaying)
+            {
+                secondary2.clip = soundQueue[0];
+                secondary2.Play();
+                soundQueue.RemoveAt(0);
+            }
+            else
+            {
+                secondary.clip = soundQueue[0];
+                secondary.Play();
+                soundQueue.RemoveAt(0);
+            }
         }
     }
 
