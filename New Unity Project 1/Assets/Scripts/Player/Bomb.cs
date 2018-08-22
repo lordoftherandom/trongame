@@ -8,7 +8,7 @@ public class Bomb : MonoBehaviour {
     SpriteRenderer sprite;
     Color initColor, altColor;
     [SerializeField]
-    const float SCALE_RATE = 0.8f, MAX_SCALE = 60.0f, BOMB_FLASH = 0.1f;
+    const float SCALE_RATE = 0.7f, MAX_SCALE = 60.0f, BOMB_FLASH = 0.1f;
 
     private float lastFlash = 0;
 	// Use this for initialization
@@ -40,7 +40,6 @@ public class Bomb : MonoBehaviour {
         string tagOfObs = other.gameObject.tag;
         if (tagOfObs == "Points" || tagOfObs == "Health" || tagOfObs == "Obstacle" || tagOfObs == "Bomb")
         {
-            Debug.Log("Bomb Hit!");
             //do effect of powerup, for now, points!
             Obstacles objScript = other.GetComponent<Obstacles>();
             HUD.ScoreIncrease(objScript.scorefactor * 0.5f);

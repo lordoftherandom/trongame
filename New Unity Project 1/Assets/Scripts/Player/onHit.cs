@@ -10,6 +10,7 @@ public class onHit : MonoBehaviour {
 	private float curTransTime;
 	private float collTime;
     private Renderer heroSkin;
+    private AudioSource audio;
     private HUDCommands HUD;
     [SerializeField]
     private GameObject gameoverscreen;
@@ -19,6 +20,7 @@ public class onHit : MonoBehaviour {
 		curTransTime = 0.0f;
         heroSkin = gameObject.GetComponent<Renderer>();
         HUD = GameObject.FindGameObjectWithTag("HUD").GetComponent<HUDCommands>();
+        audio = gameObject.GetComponent<AudioSource>();
 	}
 	
 
@@ -118,9 +120,13 @@ public class onHit : MonoBehaviour {
 	{
         if(HUD != null && !HUD.HeroHit())
             GameOver();
+        audio.loop = true;
+        audio.Play();
         collTime = invicTime;
         collHappened = true;
         yield return new WaitForSeconds (invicTime);
+        audio.Stop();
+        audio.loop = false;
 		collHappened = false;
 		heroSkin.enabled = true;
 		curTransTime = 0.0f;
@@ -145,6 +151,7 @@ public class onHit : MonoBehaviour {
 
     void GameOver()
     {
+        SoundHandler.PauseAllSounds();
         Instantiate(gameoverscreen);
         Destroy(gameObject);
     }

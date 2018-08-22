@@ -3,11 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundHandler : MonoBehaviour {
-	private const float INITAL_BEATDUR = 4;
+
+    public class SoundThing
+    {
+        public SoundThing(AudioClip clip, int mod)
+        {
+            sound = clip;
+            pitch = mod;
+        }
+        public AudioClip sound;
+        public int pitch;
+    };
+
+    private const float INITAL_BEATDUR = 4;
     private static bool soundPlaying = false, playSong = true, beatPlaying = false;
     private static SoundHandler instance;
     private static List<AudioClip>[] soundsToPlay;
-    private static List<AudioClip> soundQueue;
+    private static List<SoundThing> soundQueue;
 	private static int[] chordPosition;
 	private static float[] beatTime;
 	private static AudioSource[] beatSounds;
@@ -29,7 +41,7 @@ public class SoundHandler : MonoBehaviour {
 
     private static void LoadSounds()
     {
-        soundQueue = new List<AudioClip>();
+        soundQueue = new List<SoundThing>();
         AudioSource[] sources = instance.GetComponents<AudioSource>();
         main = sources[0];
         secondary = sources[1];
@@ -74,6 +86,11 @@ public class SoundHandler : MonoBehaviour {
 		StartBeats();
     }
 
+    public static void PauseAllSounds()
+    {
+
+    }
+
     public static void MainSong()
     {
         main.clip = mainSong;
@@ -82,11 +99,11 @@ public class SoundHandler : MonoBehaviour {
                 main.Play(0);
     }
 
-    public static void QueueSound(ObjType obj)
+    public static void QueueSound(ObjType obj, int speed)
     {
         int currChordPos = chordPosition[(int)obj]++%3;
-
-        soundQueue.Add(soundsToPlay[(int)obj][currChordPos]);
+        int pitch = speed + 1 - (int)Map.GetMinSpeed();
+        soundQueue.Add(new SoundThing(soundsToPlay[(int)obj][currChordPos], pitch));
         if (!soundPlaying)
             instance.StartCoroutine(PlaySound());
     }
@@ -99,13 +116,15 @@ public class SoundHandler : MonoBehaviour {
                 yield return new WaitForSeconds(secondary.clip.length / 1.25f);
             if (secondary.isPlaying)
             {
-                secondary2.clip = soundQueue[0];
+                secondary2.clip = soundQueue[0].sound;
+                secondary2.pitch = soundQueue[0].pitch;
                 secondary2.Play();
                 soundQueue.RemoveAt(0);
             }
             else
             {
-                secondary.clip = soundQueue[0];
+                secondary.clip = soundQueue[0].sound;
+                secondary.pitch = soundQueue[0].pitch;
                 secondary.Play();
                 soundQueue.RemoveAt(0);
             }
@@ -169,5 +188,4 @@ public class SoundHandler : MonoBehaviour {
 			yield return new WaitForSeconds(beatTime[beat] - beatTimeOffset);
 		}
 	}
-
 }

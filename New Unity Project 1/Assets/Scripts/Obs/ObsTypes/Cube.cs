@@ -40,7 +40,7 @@ public class Cube : Obstacles
     {
         if (collision.gameObject.tag == "RightWall")
         {
-            SoundHandler.QueueSound(objType);
+            SoundHandler.QueueSound(objType, (int)Mathf.Ceil(speed));
         }
     }
 }

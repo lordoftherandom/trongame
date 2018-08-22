@@ -55,7 +55,7 @@ public class Pyramid : Obstacles {
     {
         if (collision.gameObject.tag == "RightWall")
         {
-            SoundHandler.QueueSound(objType);
+            SoundHandler.QueueSound(objType, (int)Mathf.Ceil(speed));
         }
     }
 }

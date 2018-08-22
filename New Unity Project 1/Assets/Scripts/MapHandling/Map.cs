@@ -5,13 +5,17 @@ using UnityEngine;
 public class Map : MonoBehaviour {
     private GameObject spawner, parent;
     private List<GameObject> allSpawners;
-    private float spwnrTm, maxSpwnrTm, minspeed, maxspeed;
+    private float spwnrTm, maxSpwnrTm;
+    private static float minspeed, maxspeed;
     private const float incre_minspeed = 0.25f, incre_maxspeed = 0.5f, DEF_SPAWNTM = 50,
-        decayLimit = 10.0f, decay = 0.2f, MAX_SPAWNTM = 60;
+        decayLimit = 15.0f, decay = 0.2f, MAX_SPAWNTM = 80;
     private int powerupRate = 50; //repersented by the inverse of rate
     private int diff;
     public GameObject[] spawnPoints;
-    
+    public static float GetMinSpeed()
+    {
+        return minspeed;
+    }
 
 	// Use this for initialization
 	void Start () {
@@ -32,11 +36,11 @@ public class Map : MonoBehaviour {
         spwnrTm -= Time.deltaTime;
         if(spwnrTm <= 0)
         {
-            spwnrTm = spawnSpawner(maxSpwnrTm);
+            spwnrTm = spawnSpawner(maxSpwnrTm * 0.75f);
             Debug.Log("<color=purple>Spawner Time set to " + spwnrTm + "</color>");
         }
         if (allSpawners.Count < 1)
-            spwnrTm = spawnSpawner(maxSpwnrTm);
+            spwnrTm = spawnSpawner(maxSpwnrTm * 0.75f);
 	}//end Update
 
     //Chooses a random object (in ObjsType) and creates a spawner of it.
@@ -61,8 +65,7 @@ public class Map : MonoBehaviour {
             //When total weigth <= totalweight + possible current obs weight, we have found our obs type to spawn
             if (select <= (wghtSoFar += Objs.getWeight(element)))
             {
-
-                timer = timer/((Objs.GetTotalObjs() - (int)element +1)); 
+                timer = timer/((Objs.GetTotalObjs() - (int)element)); 
                 Objs.changeWeights(element);
 
                 Debug.Log("<color=green>We are adding " + element.ToString()
