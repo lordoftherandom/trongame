@@ -10,7 +10,7 @@ public class onHit : MonoBehaviour {
 	private float curTransTime;
 	private float collTime;
     private Renderer heroSkin;
-    private AudioSource audio;
+    private AudioSource damaged, pickup;
     private HUDCommands HUD;
     [SerializeField]
     private GameObject gameoverscreen;
@@ -20,7 +20,17 @@ public class onHit : MonoBehaviour {
 		curTransTime = 0.0f;
         heroSkin = gameObject.GetComponent<Renderer>();
         HUD = GameObject.FindGameObjectWithTag("HUD").GetComponent<HUDCommands>();
-        audio = gameObject.GetComponent<AudioSource>();
+        AudioSource[] sources = gameObject.GetComponents<AudioSource>();
+		if (sources[0].clip.name == "hittune")
+		{
+			damaged = sources[0];
+			pickup = sources[1];
+		}
+		else
+		{
+			damaged = sources[1];
+			pickup = sources[0];
+		}
 	}
 	
 
@@ -46,7 +56,8 @@ public class onHit : MonoBehaviour {
                 Obstacles objScript = other.GetComponent<Obstacles>();
                 HUD.ScoreIncrease(objScript.scorefactor*5);
                 objScript.destroy();
-            }
+				StartCoroutine(PlaySounds(pickup));
+			}
         }
         else if(other.gameObject.tag == "Health")
         {
@@ -57,7 +68,8 @@ public class onHit : MonoBehaviour {
                 if(healthLeft > 0)
                     HUD.ScoreIncrease(objScript.scorefactor * 2 * healthLeft);
                 objScript.destroy();
-            }
+				StartCoroutine(PlaySounds(pickup));
+			}
         }
         else if (other.gameObject.tag == "Bomb")
         {
@@ -68,7 +80,8 @@ public class onHit : MonoBehaviour {
                 if(bombLeft > 0)
                     HUD.ScoreIncrease(objScript.scorefactor * 2 * bombLeft);
                 objScript.destroy();
-            }
+				StartCoroutine(PlaySounds(pickup));
+			}
         }
     }
 
@@ -90,6 +103,7 @@ public class onHit : MonoBehaviour {
                 Obstacles objScript = other.GetComponent<Obstacles>();
                 HUD.ScoreIncrease(objScript.scorefactor * 5);
                 objScript.destroy();
+				StartCoroutine(PlaySounds(pickup));
             }
         }
         else if (other.gameObject.tag == "Health")
@@ -101,7 +115,8 @@ public class onHit : MonoBehaviour {
                 if (healthLeft > 0)
                     HUD.ScoreIncrease(objScript.scorefactor * 2 * healthLeft);
                 objScript.destroy();
-            }
+				StartCoroutine(PlaySounds(pickup));
+			}
         }
         else if (other.gameObject.tag == "Bomb")
         {
@@ -112,7 +127,8 @@ public class onHit : MonoBehaviour {
                 if (bombLeft > 0)
                     HUD.ScoreIncrease(objScript.scorefactor * 2 * bombLeft);
                 objScript.destroy();
-            }
+				StartCoroutine(PlaySounds(pickup));
+			}
         }
     }
 
@@ -120,13 +136,10 @@ public class onHit : MonoBehaviour {
 	{
         if(HUD != null && !HUD.HeroHit())
             GameOver();
-        audio.loop = true;
-        audio.Play();
         collTime = invicTime;
         collHappened = true;
+		StartCoroutine(PlaySounds(damaged));
         yield return new WaitForSeconds (invicTime);
-        audio.Stop();
-        audio.loop = false;
 		collHappened = false;
 		heroSkin.enabled = true;
 		curTransTime = 0.0f;
@@ -155,4 +168,14 @@ public class onHit : MonoBehaviour {
         Instantiate(gameoverscreen);
         Destroy(gameObject);
     }
+
+	IEnumerator PlaySounds(AudioSource source)
+	{
+		if (source.isPlaying)
+			yield return new WaitForSeconds(source.clip.length);
+		source.Play();
+		SoundHandler.PauseAllSounds();
+		yield return new WaitForSeconds(source.clip.length);
+		SoundHandler.PauseAllSounds();
+	}
 }

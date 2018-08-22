@@ -13,6 +13,7 @@ public class Bomb : MonoBehaviour {
     private float lastFlash = 0;
 	// Use this for initialization
 	void Start () {
+		SoundHandler.PauseAllSounds();
         explosion = GetComponent<CircleCollider2D>();
         sprite = GetComponent<SpriteRenderer>();
         initColor = sprite.color;
@@ -31,6 +32,7 @@ public class Bomb : MonoBehaviour {
         else
         {
             sprite.enabled = false;
+			SoundHandler.PauseAllSounds();
             Destroy(this.gameObject);
         }
 	}

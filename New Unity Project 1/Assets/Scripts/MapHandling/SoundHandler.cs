@@ -16,7 +16,8 @@ public class SoundHandler : MonoBehaviour {
     };
 
     private const float INITAL_BEATDUR = 4;
-    private static bool soundPlaying = false, playSong = true, beatPlaying = false;
+	private static bool soundPlaying = false, playSong = true,
+		beatPlaying = false, shouldPlay = true;
     private static SoundHandler instance;
     private static List<AudioClip>[] soundsToPlay;
     private static List<SoundThing> soundQueue;
@@ -81,14 +82,16 @@ public class SoundHandler : MonoBehaviour {
 				Debug.Log("Oh no an error!");
 			else
 				beatSounds[i].clip = clip;
+			beatSounds[i].volume = 0.5f;
 			beatTime[i] = 0;
 		}
+		beatTime[beatSounds.Length - 1] = INITAL_BEATDUR;
 		StartBeats();
     }
 
     public static void PauseAllSounds()
     {
-
+		shouldPlay = !shouldPlay;
     }
 
     public static void MainSong()
@@ -112,6 +115,9 @@ public class SoundHandler : MonoBehaviour {
     {
         while (soundQueue.Count > 0)
         {
+			soundPlaying = true;
+			while(!shouldPlay)
+				yield return new WaitForSeconds(INITAL_BEATDUR/16);
             if (secondary.isPlaying)
                 yield return new WaitForSeconds(secondary.clip.length / 1.25f);
             if (secondary.isPlaying)
@@ -129,6 +135,7 @@ public class SoundHandler : MonoBehaviour {
                 soundQueue.RemoveAt(0);
             }
         }
+		soundPlaying = false;
     }
 
 	//Adds/Removes a beat from the handler
@@ -162,7 +169,7 @@ public class SoundHandler : MonoBehaviour {
 	private static IEnumerator PlayBeat(int beat)
 	{
 		//Start a small offset for each beat except last beat so they don't overlap
-		if (beat < beatSounds.Length - 1)
+		if (beat < beatSounds.Length - 2)
 			yield return new WaitForSeconds(beat/INITAL_BEATDUR);
 		//used to determine how much extra time has been used to wait for things to play
 		float beatTimeOffset;

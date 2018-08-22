@@ -596,3 +596,4 @@ C:\Users\jacob.hasenau\Code\Games\trongame\New Unity Project 1\obj\Debug\Assembl
 C:\Users\jacob.hasenau\Code\Games\trongame\New Unity Project 1\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 C:\Users\jacob.hasenau\Code\Games\trongame\New Unity Project 1\obj\Debug\Assembly-CSharp.dll
 C:\Users\jacob.hasenau\Code\Games\trongame\New Unity Project 1\obj\Debug\Assembly-CSharp.pdb
+C:\Users\jacob.hasenau\Code\Games\trongame\New Unity Project 1\Temp\bin\Debug\UnityEngine.WebGLModule.dll

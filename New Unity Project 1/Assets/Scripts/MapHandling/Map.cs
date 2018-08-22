@@ -19,6 +19,7 @@ public class Map : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Screen.SetResolution(800, 480, false);
         diff = 1; //def value, once diff is included needs to change
         allSpawners = new List<GameObject>();
 

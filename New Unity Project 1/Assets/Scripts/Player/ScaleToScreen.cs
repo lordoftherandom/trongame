@@ -41,6 +41,7 @@ public class ScaleToScreen : MonoBehaviour {
 
 	void ResolutionUpdate()
 	{
+		Screen.SetResolution(800, 480, false);
 		currWidth = Screen.width;
 		currHeight = Screen.height;
 		currAspect = currWidth / currHeight; //find what our new aspect ratio is
