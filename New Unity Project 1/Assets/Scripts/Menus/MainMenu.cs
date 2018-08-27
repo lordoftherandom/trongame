@@ -5,13 +5,11 @@ using UnityEngine.UI;
 using UnityEngine;
 
 public class MainMenu : MonoBehaviour {
-    public Text newgame, options, quit, instructions;
+    public Text newgame, instructions;
     public GameObject tutorial;
 	// Use this for initialization
 	void Start () {
         newgame.text = Strings.newgame;
-        options.text = Strings.options;
-        quit.text = Strings.quit;
         instructions.text = Strings.instructions;
 	}
 	
