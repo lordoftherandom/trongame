@@ -33,6 +33,6 @@ public class GameOverScreen : MonoBehaviour {
     }
     public void Exit()
     {
-
+        SceneManager.LoadScene("MainMenu-0");
     }
 }
